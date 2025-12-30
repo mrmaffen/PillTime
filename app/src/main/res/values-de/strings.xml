@@ -1,0 +1,126 @@
+<resources>
+    <string name="app_name">Pill Time</string>
+
+    <string name="med_name">Name</string>
+    <!-- "max" as in maximum, shortened to save space -->
+    <string name="max">max</string>
+    <string name="max_dose">Max. Dosis</string>
+    <string name="every">alle</string>
+    <string name="num_hours"># Stunden</string>
+    <string name="new_med">Neue Medikation</string>
+    <string name="history">Verlauf</string>
+    <!-- Example: "[X] meds taken in [the] past [Y] hours" -->
+    <string name="taken_in_past">genommen in den letzten</string>
+
+    <string name="dose">Dosis</string>
+    <string name="dose_taken">Eingenommene Dosis</string>
+    <string name="amount_taken">Menge eingenommen</string>
+    <string name="new_dose">Neue Dosis</string>
+    <string name="dose_taken_at">Eingenommen um</string>
+    <string name="pick_time">Zeit wählen</string>
+
+    <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
+    <string name="expires">läuft ab</string>
+    <string name="expired">abgelaufen</string>
+    <string name="on">am</string>
+    <string name="at">um</string>
+
+    <!-- Example: "expired 10m 43s ago" -->
+    <!-- Example: "expires in 10M 2w" -->
+    <string name="ago">vor</string>
+    <string name="in">in</string>
+    <string name="seconds">Sekunden</string>
+    <string name="seconds_short">s</string>
+    <string name="minutes">Minuten</string>
+    <string name="minutes_short">m</string>
+    <string name="hours">Stunden</string>
+    <string name="hours_short">h</string>
+    <string name="days">Tage</string>
+    <string name="days_short">d</string>
+    <string name="weeks">Wochen</string>
+    <string name="weeks_short">w</string>
+    <string name="months">Monate</string>
+    <string name="months_short">M</string>
+    <string name="years">Jahre</string>
+    <string name="years_short">y</string>
+
+    <string name="add">Hinzufügen</string>
+    <string name="save">Speichern</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="yes">Ja</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="more_options">Weitere Optionen</string>
+
+    <string name="dialog_delete_item">Möchten Sie dieses Element wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_clear_db">Möchten Sie die Datenbank wirklich bereinigen? Dies kann nicht rückgängig gemacht werden.</string>
+
+    <string name="settings">Einstellungen</string>
+    <string name="clear_db">Alle Daten löschen</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="notifications_header">Benachrichtigungsstandard</string>
+    <string name="notify_expiring_dose">Benachrichtigen, wenn eine Dosis abläuft</string>
+    <string name="notification_sound">Ton bei Benachrichtigung abspielen</string>
+
+    <string name="theme_header">Design</string>
+    <string name="theme_entry_light">Hell</string>
+    <string name="theme_entry_dark">Dunkel</string>
+    <string name="theme_entry_system_default">Systemstandard</string>
+    <string name="theme_entry_auto_battery">Automatisch (Akku)</string>
+
+    <!-- These four strings are Android constants and should not be translated -->
+    <string name="theme_value_light">MODE_NIGHT_NO</string>
+    <string name="theme_value_dark">MODE_NIGHT_YES</string>
+    <string name="theme_value_system_default">MODE_NIGHT_FOLLOW_SYSTEM</string>
+    <string name="theme_value_auto_battery">MODE_NIGHT_AUTO_BATTERY</string>
+
+    <string name="color">Farbe</string>
+    <string name="red">Rot</string>
+    <string name="orange">Orange</string>
+    <string name="amber">Bernstein</string>
+    <string name="yellow">Gelb</string>
+    <string name="lime">Limette</string>
+    <string name="green">Grün</string>
+    <string name="emerald">Smaragd</string>
+    <string name="teal">Türkis</string>
+    <string name="cyan">Cyan</string>
+    <string name="sky">Himmel</string>
+    <string name="blue">Blau</string>
+    <string name="indigo">Indigo</string>
+    <string name="violet">Violett</string>
+    <string name="purple">Lila</string>
+    <string name="fuchsia">Fuchsia</string>
+    <string name="pink">Rosa</string>
+    <string name="rose">Rosenrot</string>
+
+    <string name="disclaimer_title">Haftungsausschluss</string>
+    <string name="disclaimer_1">Diese App gibt keine medizinischen Ratschläge, weder implizit noch anderweitig. Alle von der App bereitgestellten Informationen basieren ausschließlich auf Benutzereingaben und stellen keine Empfehlung dar. Medizinische Entscheidungen sollten stets in Absprache mit medizinischem Fachpersonal getroffen werden.</string>
+    <string name="disclaimer_2">Dies ist eine einfache App, die von einer einzelnen Person für den persönlichen Gebrauch erstellt wurde. Es darf sich nicht auf diese App für gesundheitliche Zwecke verlassen werden. Aufgrund technischer Einschränkungen und bekannter Probleme kann nicht garantiert werden, dass Benachrichtigungen zu bestimmten Zeiten erfolgen. (Beispielsweise kann ein Neustart des Telefons geplante Benachrichtigungen dieser App deaktivieren.)</string>
+
+    <string name="dev_decree_title">Hinweis</string>
+    <string name="dev_decree_notice">Aufgrund neuer, furchtbarer Google-Richtlinien könnte diese App bald schwer oder unmöglich für Sie zu installieren sein.\n\nGoogle plant, Android-Geräte daran zu hindern, Apps zu installieren, deren Entwickler keine Gebühr bezahlt und keine staatlichen Identifikationsdokumente eingereicht haben.</string>
+    <string name="learn_more">Mehr erfahren</string>
+    <string name="close">Schließen</string>
+
+    <string name="no_meds">Keine Medikamente gefunden.</string>
+    <string name="add_med">Medikation hinzufügen</string>
+    <string name="no_doses">Keine Dosen eingenommen.</string>
+    <string name="add_dose">Dosis hinzufügen</string>
+    <string name="show_more">Mehr anzeigen</string>
+    <string name="taken">eingenommen</string>
+    <string name="channel_name">Benachrichtigungen abgelaufener Dosen</string>
+    <string name="channel_description">Benachrichtigungen, wenn Dosen ablaufen</string>
+    <string name="delete_and_older">Dieses und ältere löschen</string>
+
+    <string name="data">Daten</string>
+    <string name="export_all">Alle Daten exportieren</string>
+    <string name="export_all_summary">Erstellt eine Datei, die auf jedem Gerät importiert werden kann</string>
+    <string name="import_data">Daten importieren</string>
+    <string name="import_from_file">Benötigt eine Textdatei auf Ihrem Gerät, exportiert aus dieser App\n(Überschreibt NICHT die bereits vorhandenen Daten)</string>
+    <string name="last_taken">zuletzt eingenommen</string>
+    <!-- Example: "last taken: never" -->
+    <string name="never">nie</string>
+
+    <string name="about_app">Über Pill Time</string>
+    <string name="info_link_title">Quellcode und weitere Informationen auf GitHub verfügbar</string>
+</resources>
