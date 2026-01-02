@@ -3,14 +3,17 @@ package com.cliambrown.pilltime.notifications;
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static com.cliambrown.pilltime.PillTimeApplication.CHANNEL_ID;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -75,6 +78,17 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
                 .setOngoing(false)
                 .setSilent(intent.getBooleanExtra("setSilent", true));
 
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.w(AlarmBroadcastReceiver.class.getName(), "Can't show notification. Permission NOT granted!");
+            return;
+        }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(doseID, builder.build());
     }

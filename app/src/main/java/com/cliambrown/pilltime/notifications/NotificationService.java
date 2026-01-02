@@ -2,16 +2,20 @@ package com.cliambrown.pilltime.notifications;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import static com.cliambrown.pilltime.PillTimeApplication.CHANNEL_ID;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -128,7 +132,17 @@ public class NotificationService extends Service {
                 .setOngoing(false)
                 .setSilent(!dose.getNotifySound())
                 .setDeleteIntent(pendingDeleteIntent);
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            Log.w(NotificationService.class.getName(), "Can't show notification. Permission NOT granted!");
+            return START_NOT_STICKY;
+        }
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(dose.getId(), builder.build());
 
