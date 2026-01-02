@@ -98,7 +98,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
                         }
                         if (itemID == R.id.mi_med_option_delete) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setMessage(R.string.dialog_delete_item)
+                            builder.setMessage(R.string.dialog_delete_medication)
                                     .setTitle(R.string.delete)
                                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -199,8 +199,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
 
         public void updateInfo() {
             int doseHours = med.getDoseHours();
-            String takenInPast = " " + context.getString(R.string.taken_in_past) + " " +
-                    doseHours + " " + context.getString(R.string.hours);
+            String takenInPast = " " + context.getResources().getQuantityString(R.plurals.taken_in_past_hours, doseHours, doseHours);
             tv_rvMed_name.setText(med.getName());
             String colorName = med.getColor();
             int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");

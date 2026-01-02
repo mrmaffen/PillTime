@@ -22,6 +22,14 @@ public class Utils {
         return nf.format(val);
     }
 
+    public static String buildTimeOnDateString(Context context, long unixTime) {
+        long unixTimeMs = unixTime * 1000L;
+        String timeStr = DateUtils.formatDateTime(context, unixTimeMs, DateUtils.FORMAT_SHOW_TIME).toLowerCase();
+        String dateStr = DateUtils.formatDateTime(context, unixTimeMs, DateUtils.FORMAT_ABBREV_ALL |
+                DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR);
+        return context.getString(R.string.time_on_date, timeStr, dateStr);
+    }
+
     public static String simpleFutureTime(Context context, long unixTime) {
         long unixTimeMs = unixTime * 1000L;
         String str = DateUtils.formatDateTime(context, unixTimeMs, DateUtils.FORMAT_SHOW_TIME)
@@ -45,7 +53,6 @@ public class Utils {
         long timeDiffSec = Math.round(unixTime - now);
         boolean isPast = (timeDiffSec < 0);
         timeDiffSec = Math.abs(timeDiffSec);
-        String str = "";
 
         class TimeInterval {
             final double maxSeconds;
@@ -70,24 +77,24 @@ public class Utils {
 
         int intervalsCount = timeIntervals.length;
 
+        String timeDiffString = "";
         for (int i=0; i<intervalsCount; i++) {
             TimeInterval timeInterval = timeIntervals[i];
             if (timeInterval.maxSeconds > 0d && timeDiffSec >= timeInterval.maxSeconds) {
                 continue;
             }
             int timeDiff = (int) Math.floor((double) timeDiffSec / timeInterval.divisor);
-            str = timeDiff + timeInterval.label;
+            timeDiffString = timeDiff + timeInterval.label;
             timeDiffSec = timeDiffSec - (long) (timeDiff * timeInterval.divisor);
             if (i > 0) {
                 TimeInterval prevTimeInterval = timeIntervals[i-1];
                 int prevTimeDiff = (int) Math.floor((double) timeDiffSec / prevTimeInterval.divisor);
-                str = str + " " + prevTimeDiff + prevTimeInterval.label;
+                timeDiffString += " " + prevTimeDiff + prevTimeInterval.label;
             }
             break;
         }
-        if (isPast) str = str + " " + context.getString(R.string.ago);
-        else str = context.getString(R.string.in) + " " + str;
-        return str;
+        int timeStringRes = isPast ? R.string.time_past_ago : R.string.time_future_in;
+        return context.getString(timeStringRes, timeDiffString);
     }
 
     public static int getResourceIdentifier(Context context, String name, String type) {

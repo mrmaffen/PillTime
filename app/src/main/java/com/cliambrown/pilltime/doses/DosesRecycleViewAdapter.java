@@ -71,22 +71,14 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             return;
         }
 
-        holder.dose = doses.get(position);
+        holder.dose = doses.get(holder.getAdapterPosition());
         long takenAt = holder.dose.getTakenAt();
 
         holder.tv_rvDose_count.setText(Utils.getStrFromDbl(holder.dose.getCount()));
-        long takenAtMs = takenAt * 1000L;
-        String takenAtStr = DateUtils.formatDateTime(context, takenAtMs, DateUtils.FORMAT_SHOW_TIME).toLowerCase() + " " +
-                context.getString(R.string.on) + " " +
-                DateUtils.formatDateTime(context, takenAtMs, DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR);
-        holder.tv_rvDose_takenAt.setText(takenAtStr);
+        holder.tv_rvDose_takenAt.setText(Utils.buildTimeOnDateString(context, takenAt));
 
         long expiresAtUnix = holder.dose.getTakenAt() + (med.getDoseHours() * 60L * 60L);
-        long expiresAtMs = expiresAtUnix * 1000L;
-        String expiresAtStr = DateUtils.formatDateTime(context, expiresAtMs, DateUtils.FORMAT_SHOW_TIME).toLowerCase() + " " +
-                context.getString(R.string.on) + " " +
-                DateUtils.formatDateTime(context, expiresAtMs, DateUtils.FORMAT_ABBREV_ALL | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR) + " ";
-        holder.tv_rvDose_expiresAt.setText(expiresAtStr);
+        holder.tv_rvDose_expiresAt.setText(Utils.buildTimeOnDateString(context, expiresAtUnix));
 
         holder.updateTimes();
 
@@ -110,7 +102,7 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
                         }
                         if (itemID == R.id.mi_dose_option_delete) {
                             builder = new AlertDialog.Builder(context);
-                            builder.setMessage(R.string.dialog_delete_item)
+                            builder.setMessage(R.string.dialog_delete_dose)
                                     .setTitle(R.string.delete)
                                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
@@ -128,7 +120,7 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
                         }
                         if (itemID == R.id.mi_dose_option_delete_and_older) {
                             builder = new AlertDialog.Builder(context);
-                            builder.setMessage(R.string.dialog_delete_item)
+                            builder.setMessage(R.string.dialog_delete_dose_and_older)
                                     .setTitle(R.string.delete_and_older)
                                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {

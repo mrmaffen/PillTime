@@ -83,9 +83,8 @@ public class NotificationService extends Service {
 
         String textTitle = med.getName() + " " + getString(R.string.dose).toLowerCase(Locale.ROOT) + " " +
                 getString(R.string.expired);
-        String textContent = Utils.getStrFromDbl(med.getActiveDoseCount()) + " " +
-                getString(R.string.taken_in_past) + " " +
-                med.getDoseHours() + " " + getString(R.string.hours);
+        String takenInPast = getResources().getQuantityString(R.plurals.taken_in_past_hours, med.getDoseHours(), med.getDoseHours());
+        String textContent = Utils.getStrFromDbl(med.getActiveDoseCount()) + " " + takenInPast;
 
         Intent notifIntent = new Intent(this, MedActivity.class);
         notifIntent.putExtra("id", med.getId());

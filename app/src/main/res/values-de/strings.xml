@@ -4,13 +4,23 @@
     <string name="med_name">Name</string>
     <!-- "max" as in maximum, shortened to save space -->
     <string name="max">max</string>
+    <string name="max_dose_per_hour">Max %1$d / %2$d Std.</string>
     <string name="max_dose">Max. Dosis</string>
     <string name="every">alle</string>
-    <string name="num_hours"># Stunden</string>
     <string name="new_med">Neue Medikation</string>
     <string name="history">Verlauf</string>
     <!-- Example: "[X] meds taken in [the] past [Y] hours" -->
-    <string name="taken_in_past">genommen in den letzten</string>
+    <plurals name="taken_in_past_hours">
+        <!--
+             As a developer, you should always supply "one" and "other"
+             strings. Your translators will know which strings are actually
+             needed for their language. Always include %d in "one" because
+             translators will need to use %d for languages where "one"
+             doesn't mean 1 (as explained above).
+          -->
+        <item quantity="one">genommen in der letzten Stunde</item>
+        <item quantity="other">genommen in den letzten %d Stunden</item>
+    </plurals>
 
     <string name="dose">Dosis</string>
     <string name="dose_taken">Eingenommene Dosis</string>
@@ -20,15 +30,14 @@
     <string name="pick_time">Zeit wählen</string>
 
     <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
-    <string name="expires">läuft ab</string>
-    <string name="expired">abgelaufen</string>
-    <string name="on">am</string>
-    <string name="at">um</string>
+    <string name="expires">läuft ab: </string>
+    <string name="expired">abgelaufen: </string>
+    <string name="time_on_date">%1$s am %2$s</string>
 
     <!-- Example: "expired 10m 43s ago" -->
     <!-- Example: "expires in 10M 2w" -->
-    <string name="ago">vor</string>
-    <string name="in">in</string>
+    <string name="time_past_ago">vor %1$s</string>
+    <string name="time_future_in">in %1$s</string>
     <string name="seconds">Sekunden</string>
     <string name="seconds_short">s</string>
     <string name="minutes">Minuten</string>
@@ -52,12 +61,13 @@
     <string name="cancel">Abbrechen</string>
     <string name="more_options">Weitere Optionen</string>
 
-    <string name="dialog_delete_item">Möchten Sie dieses Element wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
-    <string name="dialog_clear_db">Möchten Sie die Datenbank wirklich bereinigen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_clear_db">Möchten Sie die gesamte Datenbank wirklich bereinigen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_delete_medication">Möchten Sie diese Medikation wirklich löschen? Dies löscht auch alle Benutzereingaben bezüglich dieser Medikation. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_delete_dose">Möchten Sie diese Dosis wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_delete_dose_and_older">Möchten Sie diese Dosis und alle ältere wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
 
     <string name="settings">Einstellungen</string>
     <string name="clear_db">Alle Daten löschen</string>
-    <string name="title_activity_settings">Einstellungen</string>
     <string name="notifications_header">Benachrichtigungsstandard</string>
     <string name="notify_expiring_dose">Benachrichtigen, wenn eine Dosis abläuft</string>
     <string name="notification_sound">Ton bei Benachrichtigung abspielen</string>
@@ -107,7 +117,7 @@
     <string name="no_doses">Keine Dosen eingenommen.</string>
     <string name="add_dose">Dosis hinzufügen</string>
     <string name="show_more">Mehr anzeigen</string>
-    <string name="taken">eingenommen</string>
+    <string name="taken">eingenommen:</string>
     <string name="channel_name">Benachrichtigungen abgelaufener Dosen</string>
     <string name="channel_description">Benachrichtigungen, wenn Dosen ablaufen</string>
     <string name="delete_and_older">Dieses und ältere löschen</string>
