@@ -72,6 +72,12 @@
     <string name="notify_expiring_dose">Benachrichtigen, wenn eine Dosis abläuft</string>
     <string name="notification_sound">Ton bei Benachrichtigung abspielen</string>
 
+    <string name="toast_dose_saved">Dosis gespeichert</string>
+    <string name="toast_med_saved">Medikation gespeichert</string>
+    <string name="toast_error_importing_database">Fehler beim Importieren der Datenbank</string>
+    <string name="toast_error_exporting_database">Fehler beim Exportieren der Datenbank</string>
+    <string name="toast_database_cleared">Datenbank geleert</string>
+
     <string name="theme_header">Design</string>
     <string name="theme_entry_light">Hell</string>
     <string name="theme_entry_dark">Dunkel</string>

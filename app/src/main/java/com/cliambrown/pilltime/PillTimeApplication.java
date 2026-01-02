@@ -367,7 +367,8 @@ public class PillTimeApplication extends Application {
             dbHelper.importFromString(jsonText);
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Error importing database (IO exception)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,getString(R.string.toast_error_importing_database) + " (IO exception)",
+                    Toast.LENGTH_SHORT).show();
         }
         loadMeds();
         Intent broadcastIntent = new Intent();

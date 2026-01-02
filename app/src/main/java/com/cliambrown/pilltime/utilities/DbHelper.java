@@ -542,7 +542,8 @@ public class DbHelper extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, "Error importing database: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,context.getString(R.string.toast_error_importing_database) + ": " + e.getMessage(),
+                    Toast.LENGTH_SHORT).show();
         }
         if (cursor != null) cursor.close();
         db.close();

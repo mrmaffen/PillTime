@@ -182,7 +182,8 @@ public class EditDoseActivity extends SimpleMenuActivity {
                     if (!added) return;
                 }
 
-                Toast.makeText(EditDoseActivity.this, "Dose saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditDoseActivity.this, getString(R.string.toast_dose_saved),
+                        Toast.LENGTH_SHORT).show();
 
                 EditDoseActivity.this.finish();
             }

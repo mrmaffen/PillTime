@@ -72,6 +72,12 @@
     <string name="notify_expiring_dose">Show a notification when dose expires</string>
     <string name="notification_sound">Make a sound with the notification</string>
 
+    <string name="toast_dose_saved">Dose saved</string>
+    <string name="toast_med_saved">Med saved</string>
+    <string name="toast_error_importing_database">Error importing database</string>
+    <string name="toast_error_exporting_database">Error exporting database</string>
+    <string name="toast_database_cleared">Database cleared</string>
+
     <string name="theme_header">Theme</string>
     <string name="theme_entry_light">Light</string>
     <string name="theme_entry_dark">Dark</string>

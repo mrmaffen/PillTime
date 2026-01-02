@@ -150,7 +150,8 @@ public class EditMedActivity extends SimpleMenuActivity {
                     if (!added) return;
                 }
 
-                Toast.makeText(EditMedActivity.this, "Med saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditMedActivity.this, getString(R.string.toast_med_saved),
+                        Toast.LENGTH_SHORT).show();
 
                 EditMedActivity.this.finish();
             }

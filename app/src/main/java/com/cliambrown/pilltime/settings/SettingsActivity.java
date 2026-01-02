@@ -79,7 +79,9 @@ public class SettingsActivity extends AppCompatActivity
                             DbHelper dbHelper = new DbHelper(SettingsActivity.this);
                             JSONObject jsonObject = dbHelper.getExportedDb();
                             if (jsonObject == null) {
-                                Toast.makeText(SettingsActivity.this, "Error exporting database (null JSON object)", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SettingsActivity.this,
+                                        getString(R.string.toast_error_exporting_database) + " (null JSON object)",
+                                        Toast.LENGTH_SHORT).show();
                             } else {
                                 fileOutputStream.write((jsonObject.toString()).getBytes());
                             }
@@ -87,16 +89,24 @@ public class SettingsActivity extends AppCompatActivity
                             pfd.close();
                         } catch (NullPointerException e) {
                             e.printStackTrace();
-                            Toast.makeText(SettingsActivity.this, "Error exporting database (null pointer exception)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this,
+                                    getString(R.string.toast_error_exporting_database) + " (null pointer exception)",
+                                    Toast.LENGTH_SHORT).show();
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
-                            Toast.makeText(SettingsActivity.this, "Error exporting database (file not found)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this,
+                                    getString(R.string.toast_error_exporting_database) + " (file not found)",
+                                    Toast.LENGTH_SHORT).show();
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(SettingsActivity.this, "Error exporting database (IO exception)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this,
+                                    getString(R.string.toast_error_exporting_database) + " (IO exception)",
+                                    Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(SettingsActivity.this, "Error exporting database (JSON exception)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SettingsActivity.this,
+                                    getString(R.string.toast_error_exporting_database) + " (JSON exception)",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -182,7 +192,8 @@ public class SettingsActivity extends AppCompatActivity
                                         if (activity == null) return;
                                         PillTimeApplication mApp = (PillTimeApplication) activity.getApplication();
                                         mApp.clearMeds();
-                                        Toast.makeText(getActivity(), "DB cleared", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), getString(R.string.toast_database_cleared),
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
