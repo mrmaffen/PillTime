@@ -1,5 +1,6 @@
 package com.cliambrown.pilltime;
 
+import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -14,7 +15,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -106,12 +106,9 @@ public class MainActivity extends AppCompatActivity {
             this.registerReceiver(br, filter);
         }
 
-        btn_main_no_meds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditMedActivity.class);
-                startActivity(intent);
-            }
+        btn_main_no_meds.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, EditMedActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -198,16 +195,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startUpdateTimer() {
-        final Handler handler = new Handler();
+        final Handler handler = new Handler(Looper.getMainLooper());
         timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
             @Override
             public void run() {
-                handler.post(new Runnable() {
-                    public void run() {
-                        updateTimes();
-                    }
-                });
+                handler.post(() -> updateTimes());
             }
         };
         timer.schedule(doAsynchronousTask, 60000, 60000); // once every minute
@@ -226,22 +219,18 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.dev_decree_title)
                     .setMessage(R.string.dev_decree_notice)
-                    .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            SharedPreferences.Editor editor = prefs.edit();
-                            editor.putBoolean("show_dev_decree_dialog", false);
-                            editor.apply();
-                            dialog.cancel();
-                        }
+                    .setPositiveButton(R.string.close, (dialog, id) -> {
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("show_dev_decree_dialog", false);
+                        editor.apply();
+                        dialog.cancel();
                     })
-                    .setNegativeButton(R.string.learn_more, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent browserIntent = new Intent(
-                                    Intent.ACTION_VIEW,
-                                    Uri.parse("https://f-droid.org/en/2025/09/29/google-developer-registration-decree.html")
-                            );
-                            startActivity(browserIntent);
-                        }
+                    .setNegativeButton(R.string.learn_more, (dialog, id) -> {
+                        Intent browserIntent = new Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://f-droid.org/en/2025/09/29/google-developer-registration-decree.html")
+                        );
+                        startActivity(browserIntent);
                     });
             return builder.create();
         }

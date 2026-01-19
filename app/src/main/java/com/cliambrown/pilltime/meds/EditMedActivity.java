@@ -84,7 +84,7 @@ public class EditMedActivity extends SimpleMenuActivity {
             setTitle(getString(R.string.new_med));
         }
 
-        colorButtons = new ArrayList<ImageButton>();
+        colorButtons = new ArrayList<>();
         ImageButton imageButton;
 
         int drawableID;
@@ -107,54 +107,48 @@ public class EditMedActivity extends SimpleMenuActivity {
             imageButton.setFocusable(true);
             colorButtons.add(imageButton);
 
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (ImageButton listButton : colorButtons) {
-                        setColorBtnState(listButton, false);
-                    }
-                    setColorBtnState((ImageButton) view, true);
-                    selectedColor = colorName;
+            imageButton.setOnClickListener(view -> {
+                for (ImageButton listButton : colorButtons) {
+                    setColorBtnState(listButton, false);
                 }
+                setColorBtnState((ImageButton) view, true);
+                selectedColor = colorName;
             });
 
             cl_editMed_parent.addView(imageButton);
             flow_editMed_colors.addView(imageButton);
         }
 
-        btn_editMed_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btn_editMed_save.setOnClickListener(view -> {
 
-                Med med;
-                String medName;
-                int maxDose;
-                int doseHours;
+            Med med1;
+            String medName;
+            int maxDose;
+            int doseHours;
 
-                try {
-                    medName = et_editMed_name.getText().toString();
-                    maxDose = np_editMed_maxDose.getValue();
-                    doseHours = np_editMed_doseHours.getValue();
-                    med = new Med(medID, medName, maxDose, doseHours, selectedColor, EditMedActivity.this);
-                } catch (Exception e) {
-                    Toast.makeText(EditMedActivity.this, "Error saving med: invalid data", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (medID > -1) {
-                    boolean edited = mApp.setMed(med);
-                    if (!edited) return;
-                } else {
-                    med.setHasLoadedAllDoses(true);
-                    boolean added = mApp.addMed(med);
-                    if (!added) return;
-                }
-
-                Toast.makeText(EditMedActivity.this, getString(R.string.toast_med_saved),
-                        Toast.LENGTH_SHORT).show();
-
-                EditMedActivity.this.finish();
+            try {
+                medName = et_editMed_name.getText().toString();
+                maxDose = np_editMed_maxDose.getValue();
+                doseHours = np_editMed_doseHours.getValue();
+                med1 = new Med(medID, medName, maxDose, doseHours, selectedColor, EditMedActivity.this);
+            } catch (Exception e) {
+                Toast.makeText(EditMedActivity.this, "Error saving med: invalid data", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            if (medID > -1) {
+                boolean edited = mApp.setMed(med1);
+                if (!edited) return;
+            } else {
+                med1.setHasLoadedAllDoses(true);
+                boolean added = mApp.addMed(med1);
+                if (!added) return;
+            }
+
+            Toast.makeText(EditMedActivity.this, getString(R.string.toast_med_saved),
+                    Toast.LENGTH_SHORT).show();
+
+            EditMedActivity.this.finish();
         });
     }
 

@@ -25,6 +25,8 @@
     <string name="dose">Dose</string>
     <string name="dose_taken">Dose Taken</string>
     <string name="amount_taken">Amount Taken</string>
+    <string name="decrease_amount_taken">Button to decrease amount taken</string>
+    <string name="increase_amount_taken">Button to increase amount taken</string>
     <string name="new_dose">New Dose</string>
     <string name="dose_taken_at">Taken at</string>
     <string name="pick_time">Select time</string>

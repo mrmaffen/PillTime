@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -113,80 +112,56 @@ public class EditDoseActivity extends SimpleMenuActivity {
 
         handleNotifyPermissions();
 
-        switch_editDose_notify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                switch_editDose_notifySound.setEnabled(isChecked);
-                handleNotifyPermissions();
-            }
+        switch_editDose_notify.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            switch_editDose_notifySound.setEnabled(isChecked);
+            handleNotifyPermissions();
         });
 
         et_editDose_count.setText(Utils.getStrFromDbl(dose.getCount()));
         updateTimeField();
         updateDateField();
 
-        btn_editDose_minusCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                incrementCount(-1D);
+        btn_editDose_minusCount.setOnClickListener(view -> incrementCount(-1D));
+
+        btn_editDose_plusCount.setOnClickListener(view -> incrementCount(1D));
+
+        tv_editDose_takenAtTime.setOnClickListener(view -> showTimePickerDialog(view));
+
+        tv_editDose_takenAtDate.setOnClickListener(view -> showDatePickerDialog(view));
+
+        btn_editDose_save.setOnClickListener(view -> {
+
+            double count;
+            boolean notify = getDefaultNotify();
+            boolean notifySound = getDefaultNotifySound();
+
+            try {
+                count = Double.parseDouble(et_editDose_count.getText().toString());
+                notify = switch_editDose_notify.isChecked();
+                notifySound = switch_editDose_notifySound.isChecked();
+            } catch (Exception e) {
+                Toast.makeText(EditDoseActivity.this, "Error saving dose: invalid data", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
 
-        btn_editDose_plusCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                incrementCount(1D);
+            // Round down to nearest exact minute
+            selectedDatetime.set( Calendar.SECOND, 0 );
+            selectedDatetime.set( Calendar.MILLISECOND, 0 );
+            long unixTime = selectedDatetime.getTimeInMillis() / 1000L;
+            Dose dose1 = new Dose(doseID, medID, count, unixTime, notify, notifySound, EditDoseActivity.this);
+
+            if (doseID > -1) {
+                boolean edited = mApp.setDose(med, dose1);
+                if (!edited) return;
+            } else {
+                boolean added = mApp.addDose(med, dose1);
+                if (!added) return;
             }
-        });
 
-        tv_editDose_takenAtTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePickerDialog(view);
-            }
-        });
+            Toast.makeText(EditDoseActivity.this, getString(R.string.toast_dose_saved),
+                    Toast.LENGTH_SHORT).show();
 
-        tv_editDose_takenAtDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { showDatePickerDialog(view); }
-        });
-
-        btn_editDose_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                double count;
-                boolean notify = getDefaultNotify();
-                boolean notifySound = getDefaultNotifySound();
-
-                try {
-                    count = Double.parseDouble(et_editDose_count.getText().toString());
-                    notify = switch_editDose_notify.isChecked();
-                    notifySound = switch_editDose_notifySound.isChecked();
-                } catch (Exception e) {
-                    Toast.makeText(EditDoseActivity.this, "Error saving dose: invalid data", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Round down to nearest exact minute
-                selectedDatetime.set( Calendar.SECOND, 0 );
-                selectedDatetime.set( Calendar.MILLISECOND, 0 );
-                long unixTime = selectedDatetime.getTimeInMillis() / 1000L;
-                Dose dose = new Dose(doseID, medID, count, unixTime, notify, notifySound, EditDoseActivity.this);
-
-                if (doseID > -1) {
-                    boolean edited = mApp.setDose(med, dose);
-                    if (!edited) return;
-                } else {
-                    boolean added = mApp.addDose(med, dose);
-                    if (!added) return;
-                }
-
-                Toast.makeText(EditDoseActivity.this, getString(R.string.toast_dose_saved),
-                        Toast.LENGTH_SHORT).show();
-
-                EditDoseActivity.this.finish();
-            }
+            EditDoseActivity.this.finish();
         });
     }
 
@@ -194,7 +169,6 @@ public class EditDoseActivity extends SimpleMenuActivity {
         if (switch_editDose_notify.isChecked()) {
             boolean notificationsEnabled = mApp.areNotificationsEnabled();
             if (!notificationsEnabled) {
-                String[] permissions = {"android.permission.POST_NOTIFICATIONS"};
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
                 }

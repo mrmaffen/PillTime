@@ -1,5 +1,7 @@
 package com.cliambrown.pilltime.meds;
 
+import android.os.Looper;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +34,8 @@ import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
-@SuppressWarnings("rawtypes")
 public class MedActivity extends AppCompatActivity {
 
     TextView tv_med_name;
@@ -129,13 +127,10 @@ public class MedActivity extends AppCompatActivity {
             this.registerReceiver(br, filter);
         }
 
-        btn_med_no_doses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MedActivity.this, EditDoseActivity.class);
-                intent.putExtra("medID", medID);
-                startActivity(intent);
-            }
+        btn_med_no_doses.setOnClickListener(view -> {
+            Intent intent1 = new Intent(MedActivity.this, EditDoseActivity.class);
+            intent1.putExtra("medID", medID);
+            startActivity(intent1);
         });
     }
 
@@ -169,22 +164,21 @@ public class MedActivity extends AppCompatActivity {
             List<Dose> doses = med.getDoses();
 
             if (action.equals("com.cliambrown.broadcast.DOSES_ADDED")) {
-                List<Integer> doseIDs = new ArrayList<Integer>();
                 try {
-                    doseIDs = (List<Integer>) intent.getSerializableExtra("doseIDs");
-                } catch (Exception e) {
-                    // do nothing
-                }
-                for (int doseID : doseIDs) {
-                    for (int i=0; i<doses.size(); ++i) {
-                        if (doses.get(i).getId() == doseID) {
-                            mAdapter.notifyItemInserted(i);
-                            break;
+                    List<Integer> doseIDs = (List<Integer>) intent.getSerializableExtra("doseIDs");
+                    for (int doseID : Objects.requireNonNull(doseIDs)) {
+                        for (int i=0; i<doses.size(); ++i) {
+                            if (doses.get(i).getId() == doseID) {
+                                mAdapter.notifyItemInserted(i);
+                                break;
+                            }
                         }
                     }
+                    updateTimes();
+                    onUpdateDoses();
+                } catch (Exception e) {
+                    Log.w(MedActivity.class.getName(), e);
                 }
-                updateTimes();
-                onUpdateDoses();
                 return;
             }
 
@@ -267,7 +261,7 @@ public class MedActivity extends AppCompatActivity {
     }
 
     private void startUpdateTimer() {
-        final Handler handler = new Handler();
+        final Handler handler = new Handler(Looper.getMainLooper());
         timer = new Timer();
         TimerTask doAsynchronousTask = new TimerTask() {
             @Override

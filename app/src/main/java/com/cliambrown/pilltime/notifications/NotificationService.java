@@ -45,20 +45,21 @@ public class NotificationService extends Service {
             stopSelf();
         }
 
-        int doseID = -1;
-        Dose dose = null;
-        Med med = null;
+        int doseID;
+        Dose dose;
+        Med med;
         try {
             doseID = intent.getIntExtra("doseID", -1);
         } catch (Exception e) {
             return START_NOT_STICKY;
         }
-        DbHelper dbHelper = new DbHelper(this);
-        if (doseID < 0) return START_NOT_STICKY;
-        dose = dbHelper.getDoseById(doseID);
-        if (dose == null) return START_NOT_STICKY;
-        if (!dose.getNotify()) return START_NOT_STICKY;
-        med = dbHelper.getMedById(dose.getMedID());
+        try (DbHelper dbHelper = new DbHelper(this)) {
+            if (doseID < 0) return START_NOT_STICKY;
+            dose = dbHelper.getDoseById(doseID);
+            if (dose == null) return START_NOT_STICKY;
+            if (!dose.getNotify()) return START_NOT_STICKY;
+            med = dbHelper.getMedById(dose.getMedID());
+        }
         if (med == null) return START_NOT_STICKY;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -90,7 +91,7 @@ public class NotificationService extends Service {
         notifIntent.putExtra("id", med.getId());
         notifIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notifIntent, 0);
-        PendingIntent pendingIntent = null;
+        PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getBroadcast(this, 0, notifIntent, FLAG_IMMUTABLE);
         } else {
@@ -99,12 +100,8 @@ public class NotificationService extends Service {
 
         Intent deleteIntent = new Intent(this, NotificationService.class);
         deleteIntent.putExtra("cancel", true);
-        PendingIntent pendingDeleteIntent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        } else {
-            pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        }
+        PendingIntent pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder publicBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_access_time_24)

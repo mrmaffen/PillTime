@@ -27,7 +27,8 @@
             android:layout_marginTop="6dp"
             app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24"
             android:backgroundTint="@android:color/transparent"
-            app:tint="?attr/colorPrimary" />
+            app:tint="?attr/colorPrimary"
+            android:contentDescription="@string/decrease_amount_taken"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_editDose_count"
@@ -60,7 +61,8 @@
             android:layout_marginTop="6dp"
             app:srcCompat="@drawable/ic_baseline_add_circle_outline_24"
             android:backgroundTint="@android:color/transparent"
-            app:tint="?attr/colorPrimary" />
+            app:tint="?attr/colorPrimary"
+            android:contentDescription="@string/increase_amount_taken"/>
     </LinearLayout>
 
     <TextView
@@ -98,7 +100,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_editDose_takenAtDate"
@@ -110,7 +112,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 

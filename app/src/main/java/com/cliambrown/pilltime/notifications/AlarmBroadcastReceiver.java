@@ -4,13 +4,11 @@ import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static com.cliambrown.pilltime.PillTimeApplication.CHANNEL_ID;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -21,7 +19,6 @@ import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.meds.MedActivity;
 
 import java.util.Locale;
-import java.util.logging.Logger;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
@@ -47,8 +44,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         Intent notifIntent = new Intent(context, MedActivity.class);
         notifIntent.putExtra("id", intent.getIntExtra("medID", -1));
         notifIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = null;
-        pendingIntent = PendingIntent.getActivity(context, 0, notifIntent, FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notifIntent, FLAG_IMMUTABLE);
 
         String doseStr = context.getString(R.string.dose);
         String publicTitle = "PillTime: " + doseStr + " " + context.getString(R.string.expired);

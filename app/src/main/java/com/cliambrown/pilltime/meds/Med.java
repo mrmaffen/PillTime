@@ -19,7 +19,7 @@ public class Med {
     private int maxDose;
     private int doseHours;
     private String color;
-    private final List<Dose> doses = new ArrayList<Dose>();
+    private final List<Dose> doses = new ArrayList<>();
     private Context context;
     private boolean hasLoadedAllDoses;
 
@@ -128,9 +128,7 @@ public class Med {
     }
 
     public Dose getDoseById(int doseID) {
-        Dose dose;
-        for (int i=0; i<doses.size(); ++i) {
-            dose = doses.get(i);
+        for (Dose dose : doses) {
             if (dose.getId() == doseID) {
                 return dose;
             }
@@ -224,11 +222,9 @@ public class Med {
         long now = System.currentTimeMillis() / 1000L;
         long doseDuration = doseHours * 60L * 60L;
         long earliestActiveTakenAt = now - doseDuration;
-        Dose dose;
         Dose loopNextExpiringDose = null;
         Dose loopLatestDose = null;
-        for (int i=0; i<doses.size(); i++) {
-            dose = doses.get(i);
+        for (Dose dose : doses) {
             if (dose.getTakenAt() > now) continue;
             if (loopLatestDose == null) loopLatestDose = dose;
             if (dose.getTakenAt() > earliestActiveTakenAt) {

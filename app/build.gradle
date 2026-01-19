@@ -3,17 +3,17 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    compileSdk = 34
 
     defaultConfig {
-        applicationId "com.cliambrown.pilltime"
-        minSdk 23
+        applicationId = "com.cliambrown.pilltime"
+        minSdk = 23
         //noinspection OldTargetApi,EditedTargetSdkVersion
-        targetSdk 34
-        versionCode 10
-        versionName "10.0"
+        targetSdk = 34
+        versionCode = 10
+        versionName = "10.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // Required for F-Droid — https://gitlab.com/fdroid/rfp/-/issues/2765#note_2043665365
@@ -31,10 +31,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
-    namespace 'com.cliambrown.pilltime'
+    namespace = 'com.cliambrown.pilltime'
 }
 
 dependencies {

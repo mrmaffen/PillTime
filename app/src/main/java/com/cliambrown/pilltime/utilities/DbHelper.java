@@ -131,7 +131,10 @@ public class DbHelper extends SQLiteOpenHelper {
         String[] selectionArgs = new String[]{String.valueOf(medID)};
         String stmt = "SELECT * FROM " + MEDS_TABLE + " WHERE id = ?";
         Cursor cursor = db.rawQuery(stmt, selectionArgs);
-        if (!cursor.moveToFirst()) return null;
+        if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
         int col_name = cursor.getColumnIndex(MEDS_COL_NAME);
         int col_maxDose = cursor.getColumnIndex(MEDS_COL_MAX_DOSE);
         int col_doseHours = cursor.getColumnIndex(MEDS_COL_DOSE_HOURS);
@@ -284,9 +287,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public List<Dose> loadDoses(Med med) {
-        List<Dose> returnList = new ArrayList<Dose>();
+        List<Dose> returnList = new ArrayList<>();
         String stmt = "SELECT * FROM " + DOSES_TABLE + " WHERE " + DOSES_COL_MED_ID + " = ? ";
-        List<Integer> doseIDs = new ArrayList<Integer>();
+        List<Integer> doseIDs = new ArrayList<>();
         for (Dose dose : med.getDoses()) {
             doseIDs.add(dose.getId());
         }
@@ -322,7 +325,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public List<Dose> getActiveDoses() {
-        List<Dose> returnList = new ArrayList<Dose>();
+        List<Dose> returnList = new ArrayList<>();
         long now = System.currentTimeMillis() / 1000L;
         SQLiteDatabase db = this.getReadableDatabase();
         // NOTE: using selectionArgs here for now didn't work for some reason
@@ -382,7 +385,7 @@ public class DbHelper extends SQLiteOpenHelper {
         JSONObject dbObject = new JSONObject();
         dbObject.put("version", db.getVersion());
 
-        HashMap<String, String> colCodesMap = new HashMap<String, String>();
+        HashMap<String, String> colCodesMap = new HashMap<>();
         colCodesMap.put(MEDS_COL_NAME, "m1");
         colCodesMap.put(MEDS_COL_MAX_DOSE, "m2");
         colCodesMap.put(MEDS_COL_DOSE_HOURS, "m3");
@@ -465,7 +468,6 @@ public class DbHelper extends SQLiteOpenHelper {
         return rootJsonObject;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void importFromString(String jsonText) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
@@ -475,7 +477,7 @@ public class DbHelper extends SQLiteOpenHelper {
             JSONObject dbObject = rootJsonObject.getJSONObject("db");
             JSONObject colCodesObject = dbObject.getJSONObject("col_codes");
             Iterator<String> keys = colCodesObject.keys();
-            HashMap<String, String> colCodesMap = new HashMap<String, String>();
+            HashMap<String, String> colCodesMap = new HashMap<>();
             while (keys.hasNext()) {
                 String key = keys.next();
                 String val = colCodesObject.getString(key);

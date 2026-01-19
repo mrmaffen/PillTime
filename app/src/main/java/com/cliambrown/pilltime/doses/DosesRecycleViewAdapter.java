@@ -2,11 +2,8 @@ package com.cliambrown.pilltime.doses;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -62,16 +59,11 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
 
         if (position == doses.size()) {
             holder.updateLoadMore();
-            holder.btn_med_loadMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mApp.loadMoreDoses(med);
-                }
-            });
+            holder.btn_med_loadMore.setOnClickListener(view -> mApp.loadMoreDoses(med));
             return;
         }
 
-        holder.dose = doses.get(holder.getAdapterPosition());
+        holder.dose = doses.get(holder.getBindingAdapterPosition());
         long takenAt = holder.dose.getTakenAt();
 
         holder.tv_rvDose_count.setText(Utils.getStrFromDbl(holder.dose.getCount()));
@@ -82,70 +74,52 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
 
         holder.updateTimes();
 
-        holder.btn_rvDose_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvDose_more);
-                popupMenu.inflate(R.menu.dose_option_menu);
+        holder.btn_rvDose_more.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvDose_more);
+            popupMenu.inflate(R.menu.dose_option_menu);
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        AlertDialog.Builder builder;
-                        int itemID = menuItem.getItemId();
-                        if (itemID == R.id.mi_dose_option_edit) {
-                            Intent intent = new Intent(context, EditDoseActivity.class);
-                            intent.putExtra("medID", holder.dose.getMedID());
-                            intent.putExtra("doseID", holder.dose.getId());
-                            context.startActivity(intent);
-                            return true;
-                        }
-                        if (itemID == R.id.mi_dose_option_delete) {
-                            builder = new AlertDialog.Builder(context);
-                            builder.setMessage(R.string.dialog_delete_dose)
-                                    .setTitle(R.string.delete)
-                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            mApp.removeDose(holder.dose);
-                                            DosesRecycleViewAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            builder.show();
-                            return true;
-                        }
-                        if (itemID == R.id.mi_dose_option_delete_and_older) {
-                            builder = new AlertDialog.Builder(context);
-                            builder.setMessage(R.string.dialog_delete_dose_and_older)
-                                    .setTitle(R.string.delete_and_older)
-                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            int position = holder.getAdapterPosition();
-                                            int itemCount = doses.size()- position;
-                                            mApp.removeDoseAndOlder(holder.med, holder.dose);
-                                            DosesRecycleViewAdapter.this.notifyItemRangeRemoved(position, itemCount);
-                                            holder.updateLoadMore();
-                                            DosesRecycleViewAdapter.this.notifyItemChanged(doses.size());
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            builder.show();
-                            return true;
-                        }
-                        return false;
-                    }
-                });
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                AlertDialog.Builder builder;
+                int itemID = menuItem.getItemId();
+                if (itemID == R.id.mi_dose_option_edit) {
+                    Intent intent = new Intent(context, EditDoseActivity.class);
+                    intent.putExtra("medID", holder.dose.getMedID());
+                    intent.putExtra("doseID", holder.dose.getId());
+                    context.startActivity(intent);
+                    return true;
+                }
+                if (itemID == R.id.mi_dose_option_delete) {
+                    builder = new AlertDialog.Builder(context);
+                    builder.setMessage(R.string.dialog_delete_dose)
+                            .setTitle(R.string.delete)
+                            .setPositiveButton(R.string.yes, (dialog, id) -> {
+                                mApp.removeDose(holder.dose);
+                                DosesRecycleViewAdapter.this.notifyItemRemoved(holder.getBindingAdapterPosition());
+                            })
+                            .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    builder.show();
+                    return true;
+                }
+                if (itemID == R.id.mi_dose_option_delete_and_older) {
+                    builder = new AlertDialog.Builder(context);
+                    builder.setMessage(R.string.dialog_delete_dose_and_older)
+                            .setTitle(R.string.delete_and_older)
+                            .setPositiveButton(R.string.yes, (dialog, id) -> {
+                                int position1 = holder.getBindingAdapterPosition();
+                                int itemCount = doses.size()- position1;
+                                mApp.removeDoseAndOlder(holder.med, holder.dose);
+                                DosesRecycleViewAdapter.this.notifyItemRangeRemoved(position1, itemCount);
+                                holder.updateLoadMore();
+                                DosesRecycleViewAdapter.this.notifyItemChanged(doses.size());
+                            })
+                            .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    builder.show();
+                    return true;
+                }
+                return false;
+            });
 
-                popupMenu.show();
-            }
+            popupMenu.show();
         });
     }
 

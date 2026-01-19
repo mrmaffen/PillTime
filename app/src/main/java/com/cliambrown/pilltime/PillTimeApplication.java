@@ -32,7 +32,7 @@ public class PillTimeApplication extends Application {
 
     private Context context;
     DbHelper dbHelper;
-    private List<Med> meds = new ArrayList<Med>();
+    private List<Med> meds = new ArrayList<>();
     public static final String CHANNEL_ID = "NOTIFICATION_SERVICE_CHANNEL";
 
     public void onCreate() {
@@ -76,8 +76,7 @@ public class PillTimeApplication extends Application {
     }
 
     public Med getMed(int medID) {
-        for (int i=0; i<meds.size(); ++i) {
-            Med med = meds.get(i);
+        for (Med med : meds) {
             if (med.getId() == medID) {
                 return med;
             }
@@ -126,9 +125,7 @@ public class PillTimeApplication extends Application {
             return false;
         }
         int medID = med.getId();
-        Med listMed;
-        for (int i=0; i<meds.size(); ++i) {
-            listMed = meds.get(i);
+        for (Med listMed : meds) {
             if (listMed.getId() != medID) continue;
 
             // Check expiry times BEFORE rescheduling (use listMed, not med)
@@ -208,7 +205,7 @@ public class PillTimeApplication extends Application {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, dose.getId(), intent, FLAG_IMMUTABLE);
         am.cancel(pendingIntent);
-        if (!dose.getNotify() || med == null) return;
+        if (!dose.getNotify()) return;
         long now = System.currentTimeMillis();
         long triggerAtMillis = (dose.getTakenAt() + (med.getDoseHours() * 60L * 60L)) * 1000L;
         if (triggerAtMillis < now) return;
@@ -287,15 +284,12 @@ public class PillTimeApplication extends Application {
         int medID = dose.getMedID();
         int doseID = dose.getId();
         dbHelper.deleteDoseById(doseID);
-        Med med;
-        List<Dose> doses;
-        for (int i=0; i<meds.size(); ++i) {
-            med = meds.get(i);
+        for (Med med : meds) {
             if (med.getId() != medID) continue;
             scheduleNotification(med, dose);
-            doses = med.getDoses();
+            List<Dose> doses = med.getDoses();
             int position = -1;
-            for (int j=0; j<doses.size(); ++j) {
+            for (int j = 0; j < doses.size(); ++j) {
                 if (doses.get(j).getId() != doseID) continue;
                 position = j;
                 break;
@@ -317,7 +311,7 @@ public class PillTimeApplication extends Application {
     public void loadMoreDoses(Med med) {
         List<Dose> doses = dbHelper.loadDoses(med);
         med.setHasLoadedAllDoses(doses.size() < 21);
-        List<Integer> doseIDs = new ArrayList<Integer>();
+        List<Integer> doseIDs = new ArrayList<>();
         for (Dose dose : doses) {
             med.addDose(dose);
             doseIDs.add(dose.getId());
@@ -361,9 +355,8 @@ public class PillTimeApplication extends Application {
 
 
     public void importFromUri(Uri uri) {
-        try {
+        try (DbHelper dbHelper = new DbHelper(context)) {
             String jsonText = Utils.readTextFromUri(uri, context);
-            DbHelper dbHelper = new DbHelper(context);
             dbHelper.importFromString(jsonText);
         } catch (IOException e) {
             e.printStackTrace();

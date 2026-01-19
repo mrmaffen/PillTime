@@ -2,10 +2,8 @@ package com.cliambrown.pilltime.meds;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -55,70 +53,52 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
         holder.updateInfo();
         holder.updateTimes();
 
-        holder.ll_rvMed_medInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, MedActivity.class);
-                intent.putExtra("id", medID);
-                context.startActivity(intent);
-            }
+        holder.ll_rvMed_medInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(context, MedActivity.class);
+            intent.putExtra("id", medID);
+            context.startActivity(intent);
         });
 
-        holder.btn_rvMed_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, EditDoseActivity.class);
-                intent.putExtra("medID", medID);
-                context.startActivity(intent);
-            }
+        holder.btn_rvMed_add.setOnClickListener(view -> {
+            Intent intent = new Intent(context, EditDoseActivity.class);
+            intent.putExtra("medID", medID);
+            context.startActivity(intent);
         });
 
-        holder.btn_rvMed_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvMed_more);
-                popupMenu.inflate(R.menu.med_option_menu);
+        holder.btn_rvMed_more.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvMed_more);
+            popupMenu.inflate(R.menu.med_option_menu);
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        Intent intent;
-                        int itemID = menuItem.getItemId();
-                        if (itemID == R.id.mi_med_option_edit) {
-                            intent = new Intent(context, EditMedActivity.class);
-                            intent.putExtra("id", medID);
-                            context.startActivity(intent);
-                            return true;
-                        }
-                        if (itemID == R.id.mi_med_option_history) {
-                            intent = new Intent(context, MedActivity.class);
-                            intent.putExtra("id", medID);
-                            context.startActivity(intent);
-                            return true;
-                        }
-                        if (itemID == R.id.mi_med_option_delete) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setMessage(R.string.dialog_delete_medication)
-                                    .setTitle(R.string.delete)
-                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            mApp.removeMedById(medID);
-                                            MedsRecycleViewAdapter.this.notifyItemRemoved(holder.getAdapterPosition());
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            builder.show();
-                        }
-                        return false;
-                    }
-                });
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                Intent intent;
+                int itemID = menuItem.getItemId();
+                if (itemID == R.id.mi_med_option_edit) {
+                    intent = new Intent(context, EditMedActivity.class);
+                    intent.putExtra("id", medID);
+                    context.startActivity(intent);
+                    return true;
+                }
+                if (itemID == R.id.mi_med_option_history) {
+                    intent = new Intent(context, MedActivity.class);
+                    intent.putExtra("id", medID);
+                    context.startActivity(intent);
+                    return true;
+                }
+                if (itemID == R.id.mi_med_option_delete) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(R.string.dialog_delete_medication)
+                            .setTitle(R.string.delete)
+                            .setPositiveButton(R.string.yes, (dialog, id) -> {
+                                mApp.removeMedById(medID);
+                                MedsRecycleViewAdapter.this.notifyItemRemoved(holder.getBindingAdapterPosition());
+                            })
+                            .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
+                    builder.show();
+                }
+                return false;
+            });
 
-                popupMenu.show();
-            }
+            popupMenu.show();
         });
     }
 
