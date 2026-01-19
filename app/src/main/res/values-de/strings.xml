@@ -47,13 +47,13 @@
     <string name="hours">Stunden</string>
     <string name="hours_short">h</string>
     <string name="days">Tage</string>
-    <string name="days_short">d</string>
+    <string name="days_short">T</string>
     <string name="weeks">Wochen</string>
-    <string name="weeks_short">w</string>
+    <string name="weeks_short">W</string>
     <string name="months">Monate</string>
     <string name="months_short">M</string>
     <string name="years">Jahre</string>
-    <string name="years_short">y</string>
+    <string name="years_short">J</string>
 
     <string name="add">Hinzufügen</string>
     <string name="save">Speichern</string>
@@ -63,10 +63,10 @@
     <string name="cancel">Abbrechen</string>
     <string name="more_options">Weitere Optionen</string>
 
-    <string name="dialog_clear_db">Möchten Sie die gesamte Datenbank wirklich bereinigen? Dies kann nicht rückgängig gemacht werden.</string>
-    <string name="dialog_delete_medication">Möchten Sie diese Medikation wirklich löschen? Dies löscht auch alle Benutzereingaben bezüglich dieser Medikation. Dies kann nicht rückgängig gemacht werden.</string>
-    <string name="dialog_delete_dose">Möchten Sie diese Dosis wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
-    <string name="dialog_delete_dose_and_older">Möchten Sie diese Dosis und alle ältere wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_clear_db">Die gesamte Datenbank wirklich bereinigen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_delete_medication">Diese Medikation wirklich löschen? Dies löscht auch alle Benutzereingaben bezüglich dieser Medikation. Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_delete_dose">Diese Dosis wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
+    <string name="dialog_delete_dose_and_older">Diese Dosis und alle älteren wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
 
     <string name="settings">Einstellungen</string>
     <string name="clear_db">Alle Daten löschen</string>
@@ -116,7 +116,7 @@
     <string name="disclaimer_2">Dies ist eine einfache App, die von einer einzelnen Person für den persönlichen Gebrauch erstellt wurde. Es darf sich nicht auf diese App für gesundheitliche Zwecke verlassen werden. Aufgrund technischer Einschränkungen und bekannter Probleme kann nicht garantiert werden, dass Benachrichtigungen zu bestimmten Zeiten erfolgen. (Beispielsweise kann ein Neustart des Telefons geplante Benachrichtigungen dieser App deaktivieren.)</string>
 
     <string name="dev_decree_title">Hinweis</string>
-    <string name="dev_decree_notice">Aufgrund neuer, furchtbarer Google-Richtlinien könnte diese App bald schwer oder unmöglich für Sie zu installieren sein.\n\nGoogle plant, Android-Geräte daran zu hindern, Apps zu installieren, deren Entwickler keine Gebühr bezahlt und keine staatlichen Identifikationsdokumente eingereicht haben.</string>
+    <string name="dev_decree_notice">Aufgrund neuer, furchtbarer Google-Richtlinien könnte diese App bald schwer oder unmöglich zu installieren sein.\n\nGoogle plant, Android-Geräte daran zu hindern, Apps zu installieren, deren Entwickler keine Gebühr bezahlt und keine staatlichen Identifikationsdokumente eingereicht haben.</string>
     <string name="learn_more">Mehr erfahren</string>
     <string name="close">Schließen</string>
 
