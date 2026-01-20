@@ -187,24 +187,24 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             int notifTextColor;
             int notifIconID;
             if (dose.isActive()) {
-                clockIconID = Utils.getResourceIdentifier(context, "ic_baseline_access_time_filled_24", "drawable");
+                clockIconID = R.drawable.ic_baseline_access_time_filled_24;
                 clockTextColor = ThemeHelper.getThemeAttr(R.attr.greenText, context);
                 if (dose.getNotify()) {
                     notifTextColor = ThemeHelper.getThemeAttr(R.attr.cyanText, context);
                     if (dose.getNotifySound()) {
-                        notifIconID = Utils.getResourceIdentifier(context, "ic_baseline_notifications_active_24", "drawable");
+                        notifIconID = R.drawable.ic_baseline_notifications_active_24;
                     } else {
-                        notifIconID = Utils.getResourceIdentifier(context, "ic_baseline_notifications_24", "drawable");
+                        notifIconID = R.drawable.ic_baseline_notifications_24;
                     }
                 } else {
                     notifTextColor = ThemeHelper.getThemeAttr(R.attr.lightText, context);
-                    notifIconID = Utils.getResourceIdentifier(context, "ic_baseline_notifications_off_24", "drawable");
+                    notifIconID = R.drawable.ic_baseline_notifications_off_24;
                 }
                 iv_rvDose_notification.setImageResource(notifIconID);
                 iv_rvDose_notification.setColorFilter(notifTextColor);
                 iv_rvDose_notification.setVisibility(View.VISIBLE);
             } else {
-                clockIconID = Utils.getResourceIdentifier(context, "ic_baseline_access_time_24", "drawable");
+                clockIconID = R.drawable.ic_baseline_access_time_24;
                 clockTextColor = ThemeHelper.getThemeAttr(R.attr.lighterText, context);
                 tv_rvDose_expires.setText(context.getString(R.string.expired));
                 iv_rvDose_notification.setVisibility(View.GONE);
