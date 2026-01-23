@@ -46,10 +46,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         notifIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notifIntent, FLAG_IMMUTABLE);
 
-        String doseStr = context.getString(R.string.dose);
-        String publicTitle = "PillTime: " + doseStr + " " + context.getString(R.string.expired);
-        String privateTitle = intent.getStringExtra("medName") + " " + doseStr.toLowerCase(Locale.ROOT) + " " +
-                context.getString(R.string.expired);
+        String publicTitle = context.getString(R.string.app_name) + ": " +
+                context.getString(R.string.notification_public_title);
+        String medName = intent.getStringExtra("medName");
+        String privateTitle = context.getString(R.string.notification_private_title, medName);
 
         NotificationCompat.Builder publicBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_access_time_24)

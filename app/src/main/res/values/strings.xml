@@ -35,6 +35,9 @@
     <string name="expires">expires: </string>
     <string name="expired">expired: </string>
     <string name="time_on_date">%1$s on %2$s</string>
+    <string name="notification_public_title">A dose expired</string>
+    <!-- "<user-picked med name> dose expired" - Example: "Greenpill dose expired"-->
+    <string name="notification_private_title">%1$s dose expired</string>
 
     <!-- Example: "expired 10m 43s ago" -->
     <!-- Example: "expires in 10M 2w" -->

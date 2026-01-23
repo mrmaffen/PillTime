@@ -35,6 +35,9 @@
     <string name="expires">läuft ab: </string>
     <string name="expired">abgelaufen: </string>
     <string name="time_on_date">%1$s am %2$s</string>
+    <string name="notification_public_title">Eine Dosis ist abgelaufen</string>
+    <!-- "<user-picked med name> dose expired" - Example: "Greenpill dose expired"-->
+    <string name="notification_private_title">Dosis ’%1$s’ ist abgelaufen</string>
 
     <!-- Example: "expired 10m 43s ago" -->
     <!-- Example: "expires in 10M 2w" -->

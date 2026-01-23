@@ -79,11 +79,9 @@ public class NotificationService extends Service {
             startForeground(med.getId(), notification);
         }
 
-
-        String publicTitle = "PillTime: " + getString(R.string.dose) + " " + getString(R.string.expired);
-
-        String textTitle = med.getName() + " " + getString(R.string.dose).toLowerCase(Locale.ROOT) + " " +
-                getString(R.string.expired);
+        String publicTitle = this.getString(R.string.app_name) + ": " +
+                this.getString(R.string.notification_public_title);
+        String textTitle = this.getString(R.string.notification_private_title, med.getName());
         String takenInPast = getResources().getQuantityString(R.plurals.taken_in_past_hours, med.getDoseHours(), med.getDoseHours());
         String textContent = Utils.getStrFromDbl(med.getActiveDoseCount()) + " " + takenInPast;
 
