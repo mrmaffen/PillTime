@@ -93,7 +93,7 @@ public class Med {
     }
 
     public String getMaxDoseInfo() {
-        return context.getString(R.string.max_dose_per_hour, maxDose, doseHours);
+        return Utils.buildMaxDosePerHourString(context, maxDose, doseHours);
     }
 
     public List<Dose> getDoses() {

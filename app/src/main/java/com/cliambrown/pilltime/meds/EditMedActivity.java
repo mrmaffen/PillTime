@@ -1,6 +1,8 @@
 package com.cliambrown.pilltime.meds;
 
+import android.widget.*;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.constraintlayout.helper.widget.Flow;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -9,11 +11,6 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.NumberPicker;
-import android.widget.Toast;
 
 import com.cliambrown.pilltime.utilities.SimpleMenuActivity;
 import com.cliambrown.pilltime.PillTimeApplication;
@@ -30,7 +27,8 @@ public class EditMedActivity extends SimpleMenuActivity {
     ConstraintLayout cl_editMed_parent;
     EditText et_editMed_name;
     NumberPicker np_editMed_maxDose;
-    NumberPicker np_editMed_doseHours;
+    NumberPicker np_editMed_doseHoursDays;
+    AppCompatSpinner sp_dayshours_picker;
     Flow flow_editMed_colors;
     Button btn_editMed_save;
     PillTimeApplication mApp;
@@ -60,10 +58,19 @@ public class EditMedActivity extends SimpleMenuActivity {
         np_editMed_maxDose.setMaxValue(100);
         np_editMed_maxDose.setWrapSelectorWheel(false);
 
-        np_editMed_doseHours = findViewById(R.id.np_editMed_doseHours);
-        np_editMed_doseHours.setMinValue(1);
-        np_editMed_doseHours.setMaxValue(100);
-        np_editMed_doseHours.setWrapSelectorWheel(false);
+        np_editMed_doseHoursDays = findViewById(R.id.np_editMed_doseHoursDays);
+        np_editMed_doseHoursDays.setMinValue(1);
+        np_editMed_doseHoursDays.setMaxValue(100);
+        np_editMed_doseHoursDays.setWrapSelectorWheel(false);
+
+        sp_dayshours_picker = findViewById(R.id.sp_dayshourspicker);
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        String[] spinnerItems = {getString(R.string.hours), getString(R.string.days)};
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerItems);
+        // Specify the layout to use when the list of choices appears.
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner.
+        sp_dayshours_picker.setAdapter(adapter);
 
         Intent intent = getIntent();
         medID = intent.getIntExtra("id", -1);
@@ -75,7 +82,12 @@ public class EditMedActivity extends SimpleMenuActivity {
         if (med != null) {
             et_editMed_name.setText(med.getName());
             np_editMed_maxDose.setValue(med.getMaxDose());
-            np_editMed_doseHours.setValue(med.getDoseHours());
+            if (med.getDoseHours() % 24 == 0) {
+                np_editMed_doseHoursDays.setValue(med.getDoseHours() / 24);
+                sp_dayshours_picker.setSelection(1, false);
+            } else {
+                np_editMed_doseHoursDays.setValue(med.getDoseHours());
+            }
             setTitle(getString(R.string.edit) + " " + med.getName());
             selectedColor = med.getColor();
         } else {
@@ -129,7 +141,11 @@ public class EditMedActivity extends SimpleMenuActivity {
             try {
                 medName = et_editMed_name.getText().toString();
                 maxDose = np_editMed_maxDose.getValue();
-                doseHours = np_editMed_doseHours.getValue();
+                doseHours = np_editMed_doseHoursDays.getValue();
+                boolean isDays = sp_dayshours_picker.getSelectedItemPosition() == 1;
+                if (isDays) {
+                    doseHours *= 24;
+                }
                 med1 = new Med(medID, medName, maxDose, doseHours, selectedColor, EditMedActivity.this);
             } catch (Exception e) {
                 Toast.makeText(EditMedActivity.this, "Error saving med: invalid data", Toast.LENGTH_SHORT).show();

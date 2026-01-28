@@ -113,4 +113,30 @@ public class Utils {
         }
         return stringBuilder.toString();
     }
+
+    public static String buildTakenInPastString(Context context, int doseHours) {
+        String takenInPast;
+        if (doseHours % 24 == 0) {
+            int doseDays = doseHours / 24;
+            takenInPast = " " + context.getResources().getQuantityString(R.plurals.taken_in_past_days, doseDays,
+                    doseDays);
+        } else {
+            takenInPast = " " + context.getResources().getQuantityString(R.plurals.taken_in_past_hours, doseHours,
+                    doseHours);
+        }
+        return takenInPast;
+    }
+
+    public static String buildMaxDosePerHourString(Context context, int maxDose, int doseHours) {
+        String maxDosePerHour;
+        if (doseHours % 24 == 0) {
+            int doseDays = doseHours / 24;
+            maxDosePerHour = context.getResources().getQuantityString(R.plurals.max_dose_per_day, doseDays, maxDose,
+                    doseDays);
+        } else {
+            maxDosePerHour = context.getResources().getQuantityString(R.plurals.max_dose_per_hour, doseHours, maxDose,
+                    doseHours);
+        }
+        return maxDosePerHour;
+    }
 }

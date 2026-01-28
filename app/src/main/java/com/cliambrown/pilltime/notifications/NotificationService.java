@@ -82,7 +82,7 @@ public class NotificationService extends Service {
         String publicTitle = this.getString(R.string.app_name) + ": " +
                 this.getString(R.string.notification_public_title);
         String textTitle = this.getString(R.string.notification_private_title, med.getName());
-        String takenInPast = getResources().getQuantityString(R.plurals.taken_in_past_hours, med.getDoseHours(), med.getDoseHours());
+        String takenInPast = Utils.buildTakenInPastString(this, med.getDoseHours());
         String textContent = Utils.getStrFromDbl(med.getActiveDoseCount()) + " " + takenInPast;
 
         Intent notifIntent = new Intent(this, MedActivity.class);

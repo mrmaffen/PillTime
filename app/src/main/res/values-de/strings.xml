@@ -4,7 +4,14 @@
     <string name="med_name">Name</string>
     <!-- "max" as in maximum, shortened to save space -->
     <string name="max">max</string>
-    <string name="max_dose_per_hour">Max %1$d / %2$d Std.</string>
+    <plurals name="max_dose_per_hour">
+        <item quantity="one">Max %1$d / Std.</item>
+        <item quantity="other">Max %1$d / %2$d Std.</item>
+    </plurals>
+    <plurals name="max_dose_per_day">
+        <item quantity="one">Max %1$d / Tag</item>
+        <item quantity="other">Max %1$d / %2$d Tage</item>
+    </plurals>
     <string name="max_dose">Max. Dosis</string>
     <string name="every">alle</string>
     <string name="new_med">Neue Medikation</string>
@@ -20,6 +27,11 @@
           -->
         <item quantity="one">genommen in der letzten Stunde</item>
         <item quantity="other">genommen in den letzten %d Stunden</item>
+    </plurals>
+    <!-- Example: "[X] meds taken in [the] past [Y] days" -->
+    <plurals name="taken_in_past_days">
+        <item quantity="one">genommen in den letzten 24 Stunden</item>
+        <item quantity="other">genommen in den letzten %1$d Tagen</item>
     </plurals>
 
     <string name="dose">Dosis</string>

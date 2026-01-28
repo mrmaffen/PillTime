@@ -233,15 +233,13 @@ public class MedActivity extends AppCompatActivity {
 
     public void updateInfo() {
         if (med == null) return;
-        int doseHours = med.getDoseHours();
-        String takenInPast = " " + getResources().getQuantityString(R.plurals.taken_in_past_hours, doseHours, doseHours);
         tv_med_name.setText(med.getName());
         String colorName = med.getColor();
         int attrResourceID = Utils.getResourceIdentifier(MedActivity.this, colorName + "Text", "attr");
         int textColor = ThemeHelper.getThemeAttr(attrResourceID, MedActivity.this);
         tv_med_name.setTextColor(textColor);
         tv_med_maxDoseInfo.setText(med.getMaxDoseInfo());
-        tv_med_takenInPast.setText(takenInPast);
+        tv_med_takenInPast.setText(Utils.buildTakenInPastString(this, med.getDoseHours()));
     }
 
     public void updateTimes() {

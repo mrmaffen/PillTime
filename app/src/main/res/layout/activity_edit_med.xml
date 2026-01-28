@@ -69,17 +69,16 @@
                 android:textColor="?attr/colorPrimary" />
 
             <NumberPicker
-                android:id="@+id/np_editMed_doseHours"
+                android:id="@+id/np_editMed_doseHoursDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/sp_dayshourspicker"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/hours"
-                android:textColor="?attr/colorPrimary" />
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

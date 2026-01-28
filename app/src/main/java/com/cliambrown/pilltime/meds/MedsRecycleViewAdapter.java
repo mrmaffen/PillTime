@@ -178,8 +178,6 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
         }
 
         public void updateInfo() {
-            int doseHours = med.getDoseHours();
-            String takenInPast = " " + context.getResources().getQuantityString(R.plurals.taken_in_past_hours, doseHours, doseHours);
             tv_rvMed_name.setText(med.getName());
             String colorName = med.getColor();
             int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");
@@ -192,7 +190,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             }
             tv_rvMed_name.setTextColor(textColor);
             tv_rvMed_maxDoseInfo.setText(med.getMaxDoseInfo());
-            tv_rvMed_takenInPast.setText(takenInPast);
+            tv_rvMed_takenInPast.setText(Utils.buildTakenInPastString(context, med.getDoseHours()));
         }
     }
 }
