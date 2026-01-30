@@ -33,6 +33,8 @@ import com.cliambrown.pilltime.meds.EditMedActivity;
 import com.cliambrown.pilltime.settings.SettingsActivity;
 import com.cliambrown.pilltime.meds.Med;
 import com.cliambrown.pilltime.meds.MedsRecycleViewAdapter;
+import com.cliambrown.pilltime.utilities.Utils;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.List;
 import java.util.Timer;
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MedsRecycleViewAdapter mAdapter;
     LinearLayout ll_main_no_meds;
-    Button btn_main_no_meds;
+    ExtendedFloatingActionButton btn_main_add_med;
 
     PillTimeApplication mApp;
     Timer timer;
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ll_main_no_meds = findViewById(R.id.ll_main_no_meds);
-        btn_main_no_meds = findViewById(R.id.btn_main_no_meds);
+        btn_main_add_med = findViewById(R.id.btn_main_add_med);
 
         mApp = (PillTimeApplication) this.getApplication();
         prefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new MedsRecycleViewAdapter(meds, this, mApp);
         recyclerView.setAdapter(mAdapter);
+        float offsetPx = getResources().getDimension(R.dimen.bottom_offset_dp);
+        Utils.BottomOffsetDecoration bottomOffsetDecoration = new Utils.BottomOffsetDecoration((int) offsetPx);
+        recyclerView.addItemDecoration(bottomOffsetDecoration);
 
         SwipeRefreshLayout mSwipeRefreshLayout = findViewById(R.id.swiperefresh_main);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -106,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             this.registerReceiver(br, filter);
         }
 
-        btn_main_no_meds.setOnClickListener(view -> {
+        btn_main_add_med.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, EditMedActivity.class);
             startActivity(intent);
         });
@@ -261,11 +266,6 @@ public class MainActivity extends AppCompatActivity {
         int itemID = item.getItemId();
         if (itemID == android.R.id.home) {
             MainActivity.this.finish();
-            return true;
-        }
-        if (itemID == R.id.mi_main_add) {
-            intent = new Intent(MainActivity.this, EditMedActivity.class);
-            startActivity(intent);
             return true;
         }
         if (itemID == R.id.mi_main_settings) {

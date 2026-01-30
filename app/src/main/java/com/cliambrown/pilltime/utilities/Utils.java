@@ -1,10 +1,14 @@
 package com.cliambrown.pilltime.utilities;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.text.format.DateUtils;
 
+import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
 import com.cliambrown.pilltime.R;
+import org.jspecify.annotations.NonNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -138,5 +142,28 @@ public class Utils {
                     doseHours);
         }
         return maxDosePerHour;
+    }
+
+    public static class BottomOffsetDecoration extends RecyclerView.ItemDecoration {
+        private final int mBottomOffset;
+
+        public BottomOffsetDecoration(int bottomOffset) {
+            mBottomOffset = bottomOffset;
+        }
+
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view,
+                                   @NonNull RecyclerView parent, RecyclerView.@NonNull State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+
+            int dataSize = state.getItemCount();
+            int position = parent.getChildAdapterPosition(view);
+            if (dataSize > 0 && position == dataSize - 1) {
+                outRect.set(0, 0, 0, mBottomOffset);
+            } else {
+                outRect.set(0, 0, 0, 0);
+            }
+
+        }
     }
 }

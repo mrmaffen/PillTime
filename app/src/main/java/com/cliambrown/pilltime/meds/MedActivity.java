@@ -33,6 +33,8 @@ import com.cliambrown.pilltime.PillTimeApplication;
 import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.*;
 
@@ -43,7 +45,7 @@ public class MedActivity extends AppCompatActivity {
     TextView tv_med_currentTotalDoseCount;
     TextView tv_med_takenInPast;
     LinearLayout ll_med_no_doses;
-    Button btn_med_no_doses;
+    ExtendedFloatingActionButton btn_med_add_dose;
 
     private RecyclerView recyclerView;
     private DosesRecycleViewAdapter mAdapter;
@@ -70,7 +72,7 @@ public class MedActivity extends AppCompatActivity {
         tv_med_currentTotalDoseCount = findViewById(R.id.tv_med_currentTotalDoseCount);
         tv_med_takenInPast = findViewById(R.id.tv_med_takenInPast);
         ll_med_no_doses = findViewById(R.id.ll_med_no_doses);
-        btn_med_no_doses = findViewById(R.id.btn_med_no_doses);
+        btn_med_add_dose = findViewById(R.id.btn_med_add_dose);
 
         Intent intent = getIntent();
         medID = intent.getIntExtra("id", -1);
@@ -94,6 +96,9 @@ public class MedActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         mAdapter = new DosesRecycleViewAdapter(med, med.getDoses(), this, mApp);
         recyclerView.setAdapter(mAdapter);
+        float offsetPx = getResources().getDimension(R.dimen.bottom_offset_dp);
+        Utils.BottomOffsetDecoration bottomOffsetDecoration = new Utils.BottomOffsetDecoration((int) offsetPx);
+        recyclerView.addItemDecoration(bottomOffsetDecoration);
 
         SwipeRefreshLayout mSwipeRefreshLayout = findViewById(R.id.swiperefresh_med);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -127,7 +132,7 @@ public class MedActivity extends AppCompatActivity {
             this.registerReceiver(br, filter);
         }
 
-        btn_med_no_doses.setOnClickListener(view -> {
+        btn_med_add_dose.setOnClickListener(view -> {
             Intent intent1 = new Intent(MedActivity.this, EditDoseActivity.class);
             intent1.putExtra("medID", medID);
             startActivity(intent1);
@@ -302,12 +307,6 @@ public class MedActivity extends AppCompatActivity {
         if (itemID == R.id.mi_med_edit) {
             intent = new Intent(MedActivity.this, EditMedActivity.class);
             intent.putExtra("id", medID);
-            startActivity(intent);
-            return true;
-        }
-        if (itemID == R.id.mi_med_add) {
-            intent = new Intent(MedActivity.this, EditDoseActivity.class);
-            intent.putExtra("medID", medID);
             startActivity(intent);
             return true;
         }
