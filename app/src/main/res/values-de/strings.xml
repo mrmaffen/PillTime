@@ -85,7 +85,7 @@
 
     <string name="settings">Einstellungen</string>
     <string name="clear_db">Alle Daten löschen</string>
-    <string name="notifications_header">Benachrichtigungsstandard</string>
+    <string name="notifications_header">Standard für Benachrichtigungen</string>
     <string name="notify_expiring_dose">Benachrichtigen, wenn eine Dosis abläuft</string>
     <string name="notification_sound">Ton bei Benachrichtigung abspielen</string>
 
