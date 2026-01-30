@@ -17,6 +17,8 @@ import com.cliambrown.pilltime.PillTimeApplication;
 import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ public class EditMedActivity extends SimpleMenuActivity {
     NumberPicker np_editMed_doseHoursDays;
     AppCompatSpinner sp_dayshours_picker;
     Flow flow_editMed_colors;
-    Button btn_editMed_save;
+    ExtendedFloatingActionButton btn_editMed_save;
     PillTimeApplication mApp;
     int medID;
     String[] colors;

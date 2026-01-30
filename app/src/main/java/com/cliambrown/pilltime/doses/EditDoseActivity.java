@@ -32,6 +32,8 @@ import com.cliambrown.pilltime.meds.Med;
 import com.cliambrown.pilltime.PillTimeApplication;
 import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.Utils;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -45,7 +47,7 @@ public class EditDoseActivity extends SimpleMenuActivity {
     TextView tv_editDose_timezone;
     SwitchCompat switch_editDose_notify;
     SwitchCompat switch_editDose_notifySound;
-    Button btn_editDose_save;
+    ExtendedFloatingActionButton btn_editDose_save;
     PillTimeApplication mApp;
     int medID, doseID;
     Calendar selectedDatetime;

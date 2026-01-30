@@ -40,12 +40,14 @@
             android:label="@string/settings" />
         <activity
             android:name=".doses.EditDoseActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".meds.MedActivity"
             android:exported="false" />
         <activity
             android:name=".meds.EditMedActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
