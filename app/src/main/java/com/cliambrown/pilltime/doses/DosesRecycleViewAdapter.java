@@ -6,11 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,6 +69,13 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
         holder.tv_rvDose_expiresAt.setText(Utils.buildTimeOnDateString(context, expiresAtUnix));
 
         holder.updateTimes();
+
+        holder.ll_rvDose_doseInfo.setOnClickListener(view -> {
+            Intent intent = new Intent(context, EditDoseActivity.class);
+            intent.putExtra("medID", holder.dose.getMedID());
+            intent.putExtra("doseID", holder.dose.getId());
+            context.startActivity(intent);
+        });
 
         holder.btn_rvDose_more.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvDose_more);
@@ -150,6 +153,7 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
     }
 
     public static class DoseViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout ll_rvDose_doseInfo;
         ImageView iv_rvDose_clock;
         ImageView iv_rvDose_notification;
         TextView tv_rvDose_count;
@@ -166,6 +170,7 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
 
         public DoseViewHolder(@NonNull View itemView) {
             super(itemView);
+            ll_rvDose_doseInfo = itemView.findViewById(R.id.ll_rvDose_doseInfo);
             iv_rvDose_clock = itemView.findViewById(R.id.iv_rvDose_clock);
             iv_rvDose_notification = itemView.findViewById(R.id.iv_rvDose_notification);
             tv_rvDose_count = itemView.findViewById(R.id.tv_rvDose_count);
