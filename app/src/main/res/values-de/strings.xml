@@ -34,12 +34,15 @@
         <item quantity="other">genommen in den letzten %1$d Tagen</item>
     </plurals>
 
-    <string name="dose">Dosis</string>
+    <string name="edit_dose_title">%1$s-Dosis bearbeiten</string>
+    <string name="edit_med_title">%1$s bearbeiten</string>
+    <string name="dose_history">Dosisverlauf</string>
     <string name="dose_taken">Eingenommene Dosis</string>
     <string name="amount_taken">Menge eingenommen</string>
     <string name="decrease_amount_taken">Button, um die Einnahmemenge zu verringern</string>
     <string name="increase_amount_taken">Button, um die Einnahmemenge zu erhöhen</string>
     <string name="new_dose">Neue Dosis</string>
+    <string name="new_dose_title">Neue %1$s-Dosis</string>
     <string name="dose_taken_at">Eingenommen um</string>
     <string name="pick_time">Zeit wählen</string>
 

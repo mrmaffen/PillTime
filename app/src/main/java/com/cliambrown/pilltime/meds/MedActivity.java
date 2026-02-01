@@ -84,7 +84,7 @@ public class MedActivity extends AppCompatActivity {
             return;
         }
 
-        setTitle(getString(R.string.dose) + " " + getString(R.string.history));
+        setTitle(getString(R.string.dose_history));
 
         updateInfo();
         updateTimes();

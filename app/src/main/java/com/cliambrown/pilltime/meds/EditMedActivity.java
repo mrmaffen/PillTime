@@ -90,7 +90,7 @@ public class EditMedActivity extends SimpleMenuActivity {
             } else {
                 np_editMed_doseHoursDays.setValue(med.getDoseHours());
             }
-            setTitle(getString(R.string.edit) + " " + med.getName());
+            setTitle(getString(R.string.edit_med_title, "\"" + med.getName() +"\""));
             selectedColor = med.getColor();
         } else {
             int rnd = new Random().nextInt(colors.length);

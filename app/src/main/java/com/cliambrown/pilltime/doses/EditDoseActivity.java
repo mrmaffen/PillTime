@@ -18,7 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,7 +32,6 @@ import com.cliambrown.pilltime.PillTimeApplication;
 import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -100,12 +98,12 @@ public class EditDoseActivity extends SimpleMenuActivity {
                 EditDoseActivity.this.finish();
                 return;
             }
-            setTitle(getString(R.string.edit) + " " + getString(R.string.dose));
+            setTitle(getString(R.string.edit_dose_title,  "\"" + med.getName() + "\""));
             selectedDatetime.setTimeInMillis(dose.getTakenAt() * 1000L);
         } else {
             long now = System.currentTimeMillis() / 1000L;
             dose = new Dose(doseID, medID, med.getMaxDose(), now, getDefaultNotify(), getDefaultNotifySound(), EditDoseActivity.this);
-            setTitle(getString(R.string.new_dose) + " — " + med.getName());
+            setTitle(getString(R.string.new_dose_title, "\"" + med.getName() + "\""));
         }
 
         switch_editDose_notify.setChecked(dose.getNotify());
