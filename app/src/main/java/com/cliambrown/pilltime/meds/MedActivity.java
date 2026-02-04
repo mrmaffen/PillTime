@@ -42,7 +42,6 @@ public class MedActivity extends AppCompatActivity {
 
     TextView tv_med_name;
     TextView tv_med_maxDoseInfo;
-    TextView tv_med_currentTotalDoseCount;
     TextView tv_med_takenInPast;
     LinearLayout ll_med_no_doses;
     ExtendedFloatingActionButton btn_med_add_dose;
@@ -69,7 +68,6 @@ public class MedActivity extends AppCompatActivity {
 
         tv_med_name = findViewById(R.id.tv_med_name);
         tv_med_maxDoseInfo = findViewById(R.id.tv_med_maxDoseInfo);
-        tv_med_currentTotalDoseCount = findViewById(R.id.tv_med_currentTotalDoseCount);
         tv_med_takenInPast = findViewById(R.id.tv_med_takenInPast);
         ll_med_no_doses = findViewById(R.id.ll_med_no_doses);
         btn_med_add_dose = findViewById(R.id.btn_med_add_dose);
@@ -244,19 +242,17 @@ public class MedActivity extends AppCompatActivity {
         int textColor = ThemeHelper.getThemeAttr(attrResourceID, MedActivity.this);
         tv_med_name.setTextColor(textColor);
         tv_med_maxDoseInfo.setText(med.getMaxDoseInfo());
-        tv_med_takenInPast.setText(Utils.buildTakenInPastString(this, med.getDoseHours()));
+        int colorAttrResId = R.attr.textColorPrimary;
+        if (med.getActiveDoseCount() >= med.getMaxDose()) {
+            colorAttrResId = R.attr.redText;
+        }
+        tv_med_takenInPast.setText(Utils.buildTakenInPastString(this, colorAttrResId, med.getActiveDoseCount(),
+                med.getDoseHours()));
     }
 
     public void updateTimes() {
         if (med == null) return;
         med.updateTimes();
-        double currentTotalDoseCount = med.getActiveDoseCount();
-        tv_med_currentTotalDoseCount.setText(Utils.getStrFromDbl(currentTotalDoseCount));
-        if (currentTotalDoseCount >= (long) med.getMaxDose()) {
-            tv_med_currentTotalDoseCount.setTextColor(ThemeHelper.getThemeAttr(R.attr.redText, MedActivity.this));
-        } else {
-            tv_med_currentTotalDoseCount.setTextColor(ThemeHelper.getThemeAttr(R.attr.textColorPrimary, MedActivity.this));
-        }
         if (mAdapter == null) return;
         for (int i=0; i<med.getDoses().size(); ++i) {
             mAdapter.notifyItemChanged(i, "update_times");

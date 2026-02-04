@@ -25,13 +25,13 @@
              translators will need to use %d for languages where "one"
              doesn't mean 1 (as explained above).
           -->
-        <item quantity="one">genommen in der letzten Stunde</item>
-        <item quantity="other">genommen in den letzten %d Stunden</item>
+        <item quantity="one">%1$s genommen in der letzten Stunde</item>
+        <item quantity="other">%1$s genommen in den letzten %2$d Stunden</item>
     </plurals>
     <!-- Example: "[X] meds taken in [the] past [Y] days" -->
     <plurals name="taken_in_past_days">
-        <item quantity="one">genommen in den letzten 24 Stunden</item>
-        <item quantity="other">genommen in den letzten %1$d Tagen</item>
+        <item quantity="one">%1$s genommen in den letzten 24 Stunden</item>
+        <item quantity="other">%1$s genommen in den letzten %2$d Tagen</item>
     </plurals>
 
     <string name="edit_dose_title">%1$s-Dosis bearbeiten</string>
@@ -47,8 +47,8 @@
     <string name="pick_time">Zeit wählen</string>
 
     <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
-    <string name="expires">läuft ab: </string>
-    <string name="expired">abgelaufen: </string>
+    <string name="expires">%1$s läuft ab: %2$s</string>
+    <string name="expired">%1$s abgelaufen: %2$s</string>
     <string name="time_on_date">%1$s am %2$s</string>
     <string name="notification_public_title">Eine Dosis ist abgelaufen</string>
     <!-- "<user-picked med name> dose expired" - Example: "Greenpill dose expired"-->
@@ -143,7 +143,7 @@
     <string name="no_doses">Keine Dosen eingenommen.</string>
     <string name="add_dose">Dosis hinzufügen</string>
     <string name="show_more">Mehr anzeigen</string>
-    <string name="taken">eingenommen:</string>
+    <string name="taken">eingenommen: %1$s</string>
     <string name="channel_name">Benachrichtigungen abgelaufener Dosen</string>
     <string name="channel_description">Benachrichtigungen, wenn Dosen ablaufen</string>
     <string name="delete_and_older">Dieses und ältere löschen</string>
@@ -153,7 +153,7 @@
     <string name="export_all_summary">Erstellt eine Datei, die auf jedem Gerät importiert werden kann</string>
     <string name="import_data">Daten importieren</string>
     <string name="import_from_file">Benötigt eine Textdatei auf Ihrem Gerät, exportiert aus dieser App\n(Überschreibt NICHT die bereits vorhandenen Daten)</string>
-    <string name="last_taken">zuletzt eingenommen</string>
+    <string name="last_taken">zuletzt eingenommen: %1$s</string>
     <!-- Example: "last taken: never" -->
     <string name="never">nie</string>
 

@@ -72,7 +72,7 @@
                         android:minHeight="48dp"
                         android:importantForAutofill="no"
                         android:textAlignment="center"
-                        android:inputType="number"/>
+                        android:inputType="numberDecimal"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageButton

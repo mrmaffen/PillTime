@@ -3,6 +3,14 @@ package com.cliambrown.pilltime.meds;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +30,7 @@ import com.cliambrown.pilltime.doses.EditDoseActivity;
 import com.cliambrown.pilltime.doses.Dose;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleViewAdapter.MedViewHolder> {
 
@@ -129,7 +138,6 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
         LinearLayout ll_rvMed_medInfo;
         TextView tv_rvMed_name;
         TextView tv_rvMed_maxDoseInfo;
-        TextView tv_rvMed_currentTotalDoseCount;
         TextView tv_rvMed_takenInPast;
         TextView tv_rvMed_latestDoseExpiresIn;
         TextView tv_rvMed_lastTaken;
@@ -143,7 +151,6 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             ll_rvMed_medInfo = itemView.findViewById(R.id.ll_rvMed_medInfo);
             tv_rvMed_name = itemView.findViewById(R.id.tv_rvMed_name);
             tv_rvMed_maxDoseInfo = itemView.findViewById(R.id.tv_rvMed_maxDoseInfo);
-            tv_rvMed_currentTotalDoseCount = itemView.findViewById(R.id.tv_rvMed_currentTotalDoseCount);
             tv_rvMed_takenInPast = itemView.findViewById(R.id.tv_rvMed_takenInPast);
             tv_rvMed_latestDoseExpiresIn = itemView.findViewById(R.id.tv_rvMed_latestDoseExpiresIn);
             tv_rvMed_lastTaken = itemView.findViewById(R.id.tv_rvMed_lastTaken);
@@ -154,12 +161,6 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             if (med == null) return;
             med.updateTimes();
             double currentTotalDoseCount = med.getActiveDoseCount();
-            tv_rvMed_currentTotalDoseCount.setText(Utils.getStrFromDbl(currentTotalDoseCount));
-            if (currentTotalDoseCount >= (long) med.getMaxDose()) {
-                tv_rvMed_currentTotalDoseCount.setTextColor(ThemeHelper.getThemeAttr(R.attr.redText, context));
-            } else {
-                tv_rvMed_currentTotalDoseCount.setTextColor(ThemeHelper.getThemeAttr(R.attr.textColorPrimary, context));
-            }
             Dose latestDose = med.getLatestDose();
             if (latestDose == null || currentTotalDoseCount == 0) {
                 tv_rvMed_latestDoseExpiresIn.setVisibility(View.GONE);
@@ -168,13 +169,13 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
                 tv_rvMed_latestDoseExpiresIn.setText(expiresIn);
                 tv_rvMed_latestDoseExpiresIn.setVisibility(View.VISIBLE);
             }
-            String lastTaken;
+            String timeAgoString;
             if (latestDose == null) {
-                lastTaken = ": " + context.getString(R.string.never);
+                timeAgoString = context.getString(R.string.never);
             } else {
-                lastTaken = " " + med.getLastTakenAtStr();
+                timeAgoString = med.getLastTakenAtStr();
             }
-            tv_rvMed_lastTaken.setText(lastTaken);
+            tv_rvMed_lastTaken.setText(context.getString(R.string.last_taken, timeAgoString));
         }
 
         public void updateInfo() {
@@ -190,7 +191,12 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             }
             tv_rvMed_name.setTextColor(textColor);
             tv_rvMed_maxDoseInfo.setText(med.getMaxDoseInfo());
-            tv_rvMed_takenInPast.setText(Utils.buildTakenInPastString(context, med.getDoseHours()));
+            int colorAttrResId = R.attr.textColorPrimary;
+            if (med.getActiveDoseCount() >= med.getMaxDose()) {
+                colorAttrResId = R.attr.redText;
+            }
+            tv_rvMed_takenInPast.setText(Utils.buildTakenInPastString(context, colorAttrResId, med.getActiveDoseCount(),
+                    med.getDoseHours()));
         }
     }
 }

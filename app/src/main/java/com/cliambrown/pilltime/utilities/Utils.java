@@ -2,10 +2,19 @@ package com.cliambrown.pilltime.utilities;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.text.ParcelableSpan;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.format.DateUtils;
 
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorRes;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cliambrown.pilltime.R;
 import org.jspecify.annotations.NonNull;
@@ -16,6 +25,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Utils {
@@ -117,18 +129,59 @@ public class Utils {
         }
         return stringBuilder.toString();
     }
+    public static SpannableString buildTakenInPastString(Context context, double takenAmount, int doseHours) {
+        return buildTakenInPastString(context, R.attr.textColorPrimary, takenAmount, doseHours);
+    }
 
-    public static String buildTakenInPastString(Context context, int doseHours) {
-        String takenInPast;
+    public static SpannableString buildTakenInPastString(Context context, @AttrRes int colorAttrResId, double takenAmount, int doseHours) {
+        String takenInPastRaw;
+        int dose = doseHours;
         if (doseHours % 24 == 0) {
-            int doseDays = doseHours / 24;
-            takenInPast = " " + context.getResources().getQuantityString(R.plurals.taken_in_past_days, doseDays,
-                    doseDays);
+            dose /= 24;
+            takenInPastRaw = context.getResources().getQuantityString(R.plurals.taken_in_past_days, dose);
         } else {
-            takenInPast = " " + context.getResources().getQuantityString(R.plurals.taken_in_past_hours, doseHours,
-                    doseHours);
+            takenInPastRaw = context.getResources().getQuantityString(R.plurals.taken_in_past_hours, dose);
         }
-        return takenInPast;
+
+        String takenAmountString = Utils.getStrFromDbl(takenAmount);
+
+        List<List<ParcelableSpan>> spansList = new ArrayList<>();
+        List<ParcelableSpan> spans = new ArrayList<>();
+        spans.add(new RelativeSizeSpan(1.5f));
+        int color = ThemeHelper.getThemeAttr(colorAttrResId, context);
+        spans.add(new ForegroundColorSpan(color));
+        spans.add(new StyleSpan(Typeface.BOLD));
+        spansList.add(spans);
+        return styleString(takenInPastRaw, spansList, takenAmountString, dose);
+    }
+
+    /**
+     * Styles a given string by adding the given style-spans only to the parts that will be substituted with the given
+     * formatArgs
+     * @param unformatted The unformatted String. Still contains "%1$s" placeholders.
+     * @param spansList A 2D-List of spans that will be applied to the parts that will be substituted with the given
+     *                 formatArgs
+     * @param formatArgs The formatArgs that are substituted with the placeholders
+     * @return A SpannableString that contains the formatted String with all formatArgs and all style-spans. Can be used
+     * directly in .setText(...)
+     */
+    public static SpannableString styleString(String unformatted, List<List<ParcelableSpan>> spansList, Object... formatArgs) {
+        String formatted = String.format(Locale.getDefault(), unformatted, formatArgs);
+        SpannableString spannableString = new SpannableString(formatted);
+        int i = 0;
+        int correction = 0;
+        for (List<ParcelableSpan> spans : spansList) {
+            String param = "%" + (i + 1) + "$s";
+            int start = unformatted.indexOf(param) - correction;
+            int arglength = String.valueOf(formatArgs[i]).length();
+            int end = start + arglength;
+            correction += 4 - arglength;
+            for (ParcelableSpan span : spans) {
+                spannableString.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            i++;
+        }
+        return spannableString;
     }
 
     public static String buildMaxDosePerHourString(Context context, int maxDose, int doseHours) {

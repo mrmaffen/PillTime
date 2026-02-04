@@ -242,12 +242,12 @@ public class Med {
             double nextExpiringDoseCount = nextExpiringDose.getCount();
             long expiresAtUnix = nextExpiringDose.getTakenAt() + doseDuration;
             String timeAgo = Utils.getRelativeTimeSpanString(context, expiresAtUnix);
-            nextExpiringDoseExpiresInStr = context.getString(R.string.expires) + " " +
-                    timeAgo + " (" + Utils.simpleFutureTime(context, expiresAtUnix) + ")";
+            String countStr = "";
             if (nextExpiringDoseCount < activeDoseCount) {
-                nextExpiringDoseExpiresInStr = "x" + Utils.getStrFromDbl(nextExpiringDoseCount)
-                        + " " + nextExpiringDoseExpiresInStr;
+                countStr = "x" + Utils.getStrFromDbl(nextExpiringDoseCount);
             }
+            nextExpiringDoseExpiresInStr = context.getString(R.string.expires, countStr,
+                    timeAgo + " (" + Utils.simpleFutureTime(context, expiresAtUnix) + ")");
         }
 
         if (latestDose == null) {

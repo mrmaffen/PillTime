@@ -25,13 +25,13 @@
              translators will need to use %d for languages where "one"
              doesn't mean 1 (as explained above).
           -->
-        <item quantity="one">taken in the past hour</item>
-        <item quantity="other">taken in past %1$d hours</item>
+        <item quantity="one">%1$s taken in the past hour</item>
+        <item quantity="other">%1$s taken in past %2$d hours</item>
     </plurals>
     <!-- Example: "[X] meds taken in [the] past [Y] days" -->
     <plurals name="taken_in_past_days">
-        <item quantity="one">taken in the past day</item>
-        <item quantity="other">taken in past %1$d days</item>
+        <item quantity="one">%1$s taken in the past day</item>
+        <item quantity="other">%1$s taken in past %2$d days</item>
     </plurals>
 
     <string name="edit_dose_title">Edit %1$s-dose</string>
@@ -47,8 +47,8 @@
     <string name="pick_time">Select time</string>
 
     <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
-    <string name="expires">expires: </string>
-    <string name="expired">expired: </string>
+    <string name="expires">%1$s expires: %2$s</string>
+    <string name="expired">%1$s expired: %2$s</string>
     <string name="time_on_date">%1$s on %2$s</string>
     <string name="notification_public_title">A dose expired</string>
     <!-- "<user-picked med name> dose expired" - Example: "Greenpill dose expired"-->
@@ -143,7 +143,7 @@
     <string name="no_doses">No doses taken.</string>
     <string name="add_dose">Add a dose</string>
     <string name="show_more">Show More</string>
-    <string name="taken">taken:</string>
+    <string name="taken">taken: %1$s</string>
     <string name="channel_name">Expired Dose Notifications</string>
     <string name="channel_description">Notifications when doses expire</string>
     <string name="delete_and_older">Delete this and older</string>
@@ -153,7 +153,7 @@
     <string name="export_all_summary">Creates a file that can be imported on any device</string>
     <string name="import_data">Import data</string>
     <string name="import_from_file">Requires a text file on your device, exported from this app\n(Does NOT overwrite existing data)</string>
-    <string name="last_taken">last taken</string>
+    <string name="last_taken">last taken: %1$s</string>
     <!-- Example: "last taken: never" -->
     <string name="never">never</string>
 

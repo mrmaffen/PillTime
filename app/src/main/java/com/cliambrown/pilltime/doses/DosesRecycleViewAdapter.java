@@ -3,6 +3,11 @@ package com.cliambrown.pilltime.doses;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.text.ParcelableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +22,7 @@ import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.cliambrown.pilltime.meds.Med;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleViewAdapter.DoseViewHolder> {
@@ -60,9 +66,8 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
         }
 
         holder.dose = doses.get(holder.getBindingAdapterPosition());
-        long takenAt = holder.dose.getTakenAt();
 
-        holder.tv_rvDose_count.setText(Utils.getStrFromDbl(holder.dose.getCount()));
+        long takenAt = holder.dose.getTakenAt();
         holder.tv_rvDose_takenAt.setText(Utils.buildTimeOnDateString(context, takenAt));
 
         long expiresAtUnix = holder.dose.getTakenAt() + (med.getDoseHours() * 60L * 60L);
@@ -156,12 +161,10 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
         LinearLayout ll_rvDose_doseInfo;
         ImageView iv_rvDose_clock;
         ImageView iv_rvDose_notification;
-        TextView tv_rvDose_count;
         TextView tv_rvDose_expires;
         TextView tv_rvDose_expiresAt;
-        TextView tv_rvDose_expiresAtTimeAgo;
+        TextView tv_rvDose_taken;
         TextView tv_rvDose_takenAt;
-        TextView tv_rvDose_takenAtTimeAgo;
         ImageButton btn_rvDose_more;
         Button btn_med_loadMore;
         Dose dose;
@@ -173,12 +176,10 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             ll_rvDose_doseInfo = itemView.findViewById(R.id.ll_rvDose_doseInfo);
             iv_rvDose_clock = itemView.findViewById(R.id.iv_rvDose_clock);
             iv_rvDose_notification = itemView.findViewById(R.id.iv_rvDose_notification);
-            tv_rvDose_count = itemView.findViewById(R.id.tv_rvDose_count);
             tv_rvDose_expires = itemView.findViewById(R.id.tv_rvDose_expires);
             tv_rvDose_expiresAt = itemView.findViewById(R.id.tv_rvDose_expiresAt);
-            tv_rvDose_expiresAtTimeAgo = itemView.findViewById(R.id.tv_rvDose_expiresAtTimeAgo);
+            tv_rvDose_taken = itemView.findViewById(R.id.tv_rvDose_taken);
             tv_rvDose_takenAt = itemView.findViewById(R.id.tv_rvDose_takenAt);
-            tv_rvDose_takenAtTimeAgo = itemView.findViewById(R.id.tv_rvDose_takenAtTimeAgo);
             btn_rvDose_more = itemView.findViewById(R.id.btn_rvDose_more);
             btn_med_loadMore = itemView.findViewById(R.id.btn_med_loadMore);
         }
@@ -211,19 +212,34 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             } else {
                 clockIconID = R.drawable.ic_baseline_access_time_24;
                 clockTextColor = ThemeHelper.getThemeAttr(R.attr.lighterText, context);
-                tv_rvDose_expires.setText(context.getString(R.string.expired));
                 iv_rvDose_notification.setVisibility(View.GONE);
-            }
-            long now = System.currentTimeMillis() / 1000L;
-            if (dose.getExpiresAt() > now) {
-                tv_rvDose_expires.setText(context.getString(R.string.expires));
-            } else {
-                tv_rvDose_expires.setText(context.getString(R.string.expired));
             }
             iv_rvDose_clock.setImageResource(clockIconID);
             iv_rvDose_clock.setColorFilter(clockTextColor);
-            tv_rvDose_takenAtTimeAgo.setText(dose.getTakenAtTimeAgo());
-            tv_rvDose_expiresAtTimeAgo.setText(dose.getExpiresAtTimeAgo());
+
+            String countString = Utils.getStrFromDbl(dose.getCount());
+            List<List<ParcelableSpan>> spansList = new ArrayList<>();
+            List<ParcelableSpan> spans = new ArrayList<>();
+            spans.add(new StyleSpan(Typeface.BOLD));
+            spans.add(new RelativeSizeSpan(1.2f));
+            spansList.add(spans);
+            spans = new ArrayList<>();
+            spans.add(new StyleSpan(Typeface.BOLD));
+            spansList.add(spans);
+            String unformatted;
+            if (dose.getExpiresAt() > System.currentTimeMillis() / 1000L) {
+                unformatted = context.getString(R.string.expires);
+            } else {
+                unformatted = context.getString(R.string.expired);
+            }
+            tv_rvDose_expires.setText(Utils.styleString(unformatted, spansList, countString, dose.getExpiresAtTimeAgo()));
+
+            spansList = new ArrayList<>();
+            spans = new ArrayList<>();
+            spans.add(new StyleSpan(Typeface.BOLD));
+            spansList.add(spans);
+            unformatted = context.getString(R.string.taken);
+            tv_rvDose_taken.setText(Utils.styleString(unformatted, spansList, dose.getTakenAtTimeAgo()));
         }
 
         public void updateLoadMore() {

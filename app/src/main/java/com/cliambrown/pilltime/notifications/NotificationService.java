@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.text.SpannableString;
 import android.util.Log;
 
 import static com.cliambrown.pilltime.PillTimeApplication.CHANNEL_ID;
@@ -82,8 +83,7 @@ public class NotificationService extends Service {
         String publicTitle = this.getString(R.string.app_name) + ": " +
                 this.getString(R.string.notification_public_title);
         String textTitle = this.getString(R.string.notification_private_title, med.getName());
-        String takenInPast = Utils.buildTakenInPastString(this, med.getDoseHours());
-        String textContent = Utils.getStrFromDbl(med.getActiveDoseCount()) + " " + takenInPast;
+        SpannableString takenInPast = Utils.buildTakenInPastString(this, med.getActiveDoseCount(), med.getDoseHours());
 
         Intent notifIntent = new Intent(this, MedActivity.class);
         notifIntent.putExtra("id", med.getId());
@@ -115,7 +115,7 @@ public class NotificationService extends Service {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_access_time_24)
                 .setContentTitle(textTitle)
-                .setContentText(textContent)
+                .setContentText(takenInPast)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
