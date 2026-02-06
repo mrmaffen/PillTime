@@ -73,11 +73,6 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             intent.putExtra("id", medID);
             context.startActivity(intent);
         });
-        String colorName = holder.med.getColor();
-        int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");
-        int textColor = ThemeHelper.getThemeAttr(attrResourceID, context);
-        holder.ll_rvMed_medInfo.getBackground().setColorFilter(
-                new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
 
         holder.btn_rvMed_add.setOnClickListener(view -> {
             Intent intent = new Intent(context, EditDoseActivity.class);
@@ -206,6 +201,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
                 // Do nothing
             }
             tv_rvMed_name.setTextColor(textColor);
+            ll_rvMed_medInfo.getBackground().setColorFilter(new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
             tv_rvMed_maxDoseInfo.setText(med.getMaxDoseInfo());
             int colorAttrResId = R.attr.textColorPrimary;
             if (med.getActiveDoseCount() >= med.getMaxDose()) {

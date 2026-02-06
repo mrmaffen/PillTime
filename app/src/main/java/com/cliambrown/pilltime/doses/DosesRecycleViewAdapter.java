@@ -88,11 +88,6 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             intent.putExtra("doseID", holder.dose.getId());
             context.startActivity(intent);
         });
-        String colorName = med.getColor();
-        int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");
-        int textColor = ThemeHelper.getThemeAttr(attrResourceID, context);
-        holder.ll_rvDose_doseInfo.getBackground().setColorFilter(
-                new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
 
         holder.btn_rvDose_more.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvDose_more);
@@ -228,6 +223,12 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             }
             iv_rvDose_clock.setImageResource(clockIconID);
             iv_rvDose_clock.setColorFilter(clockTextColor);
+
+            String colorName = med.getColor();
+            int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");
+            int textColor = ThemeHelper.getThemeAttr(attrResourceID, context);
+            ll_rvDose_doseInfo.getBackground().setColorFilter(
+                    new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
 
             String countString = Utils.getStrFromDbl(dose.getCount());
             List<List<ParcelableSpan>> spansList = new ArrayList<>();
