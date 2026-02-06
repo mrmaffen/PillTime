@@ -65,7 +65,8 @@
             android:id="@+id/rv_med_doses"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="18dp" />
+            android:layout_marginTop="18dp"
+            android:requiresFadingEdge="vertical" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
