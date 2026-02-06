@@ -104,7 +104,15 @@ public class Utils {
             if (i > 0) {
                 TimeInterval prevTimeInterval = timeIntervals[i-1];
                 int prevTimeDiff = (int) Math.floor((double) timeDiffSec / prevTimeInterval.divisor);
-                timeDiffString += " " + prevTimeDiff + prevTimeInterval.label;
+                if (prevTimeDiff > 0) { // Never show "1d 0h"
+                    timeDiffString += " " + prevTimeDiff + prevTimeInterval.label;
+                } else if (i > 2) { // if first part is at least in days, go down one layer deeper to "1d 3m" for example"
+                    prevTimeInterval = timeIntervals[i-2];
+                    prevTimeDiff = (int) Math.floor((double) timeDiffSec / prevTimeInterval.divisor);
+                    if (prevTimeDiff > 0) { // Don't show "1d 0m" either
+                        timeDiffString += " " + prevTimeDiff + prevTimeInterval.label;
+                    }
+                }
             }
             break;
         }
