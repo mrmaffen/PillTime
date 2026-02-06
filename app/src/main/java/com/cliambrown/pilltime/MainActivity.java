@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 mApp.loadMeds();
-                mAdapter.notifyDataSetChanged();
+                meds = mApp.getMeds();
+                mAdapter.setData(meds);
+                updateTimes();
                 onUpdateMeds();
                 mSwipeRefreshLayout.setRefreshing(false);
             }

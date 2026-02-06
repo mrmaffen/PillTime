@@ -40,6 +40,12 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
         this.mApp = mApp;
     }
 
+    public void setData(Med med) {
+        this.med = med;
+        this.doses = med.getDoses();
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemViewType(int position) {
 

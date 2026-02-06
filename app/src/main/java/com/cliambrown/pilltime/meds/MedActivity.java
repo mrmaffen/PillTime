@@ -104,8 +104,11 @@ public class MedActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 mApp.loadMeds();
-                mAdapter.notifyDataSetChanged();
+                med = mApp.getMed(medID);
+                mAdapter.setData(med);
                 onUpdateDoses();
+                updateInfo();
+                updateTimes();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });

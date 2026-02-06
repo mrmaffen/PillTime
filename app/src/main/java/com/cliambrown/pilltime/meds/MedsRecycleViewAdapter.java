@@ -45,6 +45,11 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
         this.mApp = mApp;
     }
 
+    public void setData(List<Med> meds) {
+        this.meds = meds;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public MedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
