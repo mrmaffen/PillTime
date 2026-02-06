@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Pill Time</string>
 
     <string name="med_name">Name</string>
@@ -51,7 +51,7 @@
         <item quantity="one">%1$s läuft ab: %2$s</item>
         <item quantity="other">%1$s laufen ab: %2$s</item>
     </plurals>
-    <plurals name="expired">
+    <plurals name="expired" tools:ignore="MissingQuantity">
         <item quantity="other">%1$s abgelaufen: %2$s</item>
     </plurals>
     <string name="time_on_date">%1$s am %2$s</string>
