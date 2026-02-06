@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp"
+    android:layout_margin="16dp"
     android:id="@+id/layout_rvMed">
 
     <LinearLayout
@@ -20,104 +19,101 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_weight="0"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="4dp"
             app:srcCompat="@drawable/ic_baseline_add_24"
             android:background="@drawable/round_button_pink"
             app:tint="?attr/buttonText"
             android:contentDescription="@string/new_dose" />
 
-        <LinearLayout
-            android:id="@+id/ll_rvMed_medInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/ll_rvMed_medInfo"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_contour_colored"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_rvMed_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:breakStrategy="balanced"
-                            android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/tv_rvMed_maxDoseInfo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:singleLine="true"
-                            android:textSize="14sp"  />
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_top_tertiary"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tv_rvMed_takenInPast"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:breakStrategy="balanced"
-                            android:textSize="16sp" />
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_rvMed_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:breakStrategy="balanced"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/tv_rvMed_maxDoseInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:singleLine="true"
+                        android:textSize="14sp"  />
 
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/btn_rvMed_more"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="0"
-                    android:backgroundTint="#00FFFFFF"
-                    android:contentDescription="@string/more_options"
-                    app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+                    <ImageButton
+                            android:id="@+id/btn_rvMed_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:backgroundTint="#00FFFFFF"
+                            android:contentDescription="@string/more_options"
+                            app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_rvMed_takenInPast"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rounded_middle_secondary"
+                        android:padding="8dp"
+                        android:breakStrategy="balanced"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_rvMed_latestDoseExpiresIn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_middle_secondary"
+                    android:padding="8dp"
+                    android:breakStrategy="balanced"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_rvMed_lastTaken"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rounded_bottom_secondary"
+                    android:padding="8dp"
+                    android:breakStrategy="balanced"
+                    android:textSize="16sp"
+                    android:textColor="?attr/lightText" />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_rvMed_latestDoseExpiresIn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:breakStrategy="balanced"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_rvMed_lastTaken"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:breakStrategy="balanced"
-                android:textSize="16sp"
-                android:textColor="?attr/lightText" />
-
         </LinearLayout>
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

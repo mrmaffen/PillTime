@@ -3,6 +3,8 @@
     <!-- Base application theme. -->
     <style name="ThemePillTime" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="android:windowBackground">@color/white</item>
+        <item name="secondaryBackground">@color/gray_50</item>
+        <item name="tertiaryBackground">@color/gray_100</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_800</item>
         <item name="colorPrimaryVariant">@color/purple_900</item>

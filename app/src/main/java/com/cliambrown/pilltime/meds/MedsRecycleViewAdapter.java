@@ -3,8 +3,7 @@ package com.cliambrown.pilltime.meds;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -67,6 +66,11 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             intent.putExtra("id", medID);
             context.startActivity(intent);
         });
+        String colorName = holder.med.getColor();
+        int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");
+        int textColor = ThemeHelper.getThemeAttr(attrResourceID, context);
+        holder.ll_rvMed_medInfo.getBackground().setColorFilter(
+                new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
 
         holder.btn_rvMed_add.setOnClickListener(view -> {
             Intent intent = new Intent(context, EditDoseActivity.class);

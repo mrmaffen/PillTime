@@ -3,7 +3,7 @@ package com.cliambrown.pilltime.doses;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.graphics.*;
 import android.text.ParcelableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cliambrown.pilltime.PillTimeApplication;
 import com.cliambrown.pilltime.R;
+import com.cliambrown.pilltime.meds.MedActivity;
 import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.cliambrown.pilltime.meds.Med;
@@ -81,6 +82,11 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             intent.putExtra("doseID", holder.dose.getId());
             context.startActivity(intent);
         });
+        String colorName = med.getColor();
+        int attrResourceID = Utils.getResourceIdentifier(context, colorName + "Text", "attr");
+        int textColor = ThemeHelper.getThemeAttr(attrResourceID, context);
+        holder.ll_rvDose_doseInfo.getBackground().setColorFilter(
+                new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
 
         holder.btn_rvDose_more.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(context, holder.btn_rvDose_more);
