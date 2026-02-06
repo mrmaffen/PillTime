@@ -47,8 +47,13 @@
     <string name="pick_time">Zeit wählen</string>
 
     <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
-    <string name="expires">%1$s läuft ab: %2$s</string>
-    <string name="expired">%1$s abgelaufen: %2$s</string>
+    <plurals name="expires">
+        <item quantity="one">%1$s läuft ab: %2$s</item>
+        <item quantity="other">%1$s laufen ab: %2$s</item>
+    </plurals>
+    <plurals name="expired">
+        <item quantity="other">%1$s abgelaufen: %2$s</item>
+    </plurals>
     <string name="time_on_date">%1$s am %2$s</string>
     <string name="notification_public_title">Eine Dosis ist abgelaufen</string>
     <!-- "<user-picked med name> dose expired" - Example: "Greenpill dose expired"-->

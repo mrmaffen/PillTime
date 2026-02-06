@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
+import android.text.ParcelableSpan;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -28,6 +29,7 @@ import com.cliambrown.pilltime.utilities.Utils;
 import com.cliambrown.pilltime.doses.EditDoseActivity;
 import com.cliambrown.pilltime.doses.Dose;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -169,7 +171,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             if (latestDose == null || currentTotalDoseCount == 0) {
                 tv_rvMed_latestDoseExpiresIn.setVisibility(View.GONE);
             } else {
-                String expiresIn = med.getNextExpiringDoseExpiresInStr();
+                SpannableString expiresIn = med.getNextExpiringDoseExpiresInStr();
                 tv_rvMed_latestDoseExpiresIn.setText(expiresIn);
                 tv_rvMed_latestDoseExpiresIn.setVisibility(View.VISIBLE);
             }
@@ -179,7 +181,12 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             } else {
                 timeAgoString = med.getLastTakenAtStr();
             }
-            tv_rvMed_lastTaken.setText(context.getString(R.string.last_taken, timeAgoString));
+            String unformatted = context.getString(R.string.last_taken);
+            List<List<ParcelableSpan>> spansList = new ArrayList<>();
+            List<ParcelableSpan> spans = new ArrayList<>();
+            spans.add(new StyleSpan(Typeface.BOLD));
+            spansList.add(spans);
+            tv_rvMed_lastTaken.setText(Utils.styleString(unformatted, spansList, timeAgoString));
         }
 
         public void updateInfo() {

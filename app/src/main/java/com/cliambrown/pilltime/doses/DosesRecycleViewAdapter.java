@@ -226,17 +226,16 @@ public class DosesRecycleViewAdapter extends RecyclerView.Adapter<DosesRecycleVi
             String countString = Utils.getStrFromDbl(dose.getCount());
             List<List<ParcelableSpan>> spansList = new ArrayList<>();
             List<ParcelableSpan> spans = new ArrayList<>();
-            spans.add(new StyleSpan(Typeface.BOLD));
-            spans.add(new RelativeSizeSpan(1.2f));
+            spans.add(new StyleSpan(Typeface.BOLD_ITALIC));
             spansList.add(spans);
             spans = new ArrayList<>();
             spans.add(new StyleSpan(Typeface.BOLD));
             spansList.add(spans);
             String unformatted;
             if (dose.getExpiresAt() > System.currentTimeMillis() / 1000L) {
-                unformatted = context.getString(R.string.expires);
+                unformatted = context.getResources().getQuantityString(R.plurals.expires, (int) dose.getCount());
             } else {
-                unformatted = context.getString(R.string.expired);
+                unformatted = context.getResources().getQuantityString(R.plurals.expired, (int) dose.getCount());
             }
             tv_rvDose_expires.setText(Utils.styleString(unformatted, spansList, countString, dose.getExpiresAtTimeAgo()));
 

@@ -2,9 +2,16 @@ package com.cliambrown.pilltime.meds;
 
 import android.content.Context;
 
+import android.graphics.Typeface;
+import android.text.ParcelableSpan;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import androidx.annotation.NonNull;
 
 import com.cliambrown.pilltime.R;
+import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.cliambrown.pilltime.doses.Dose;
 
@@ -26,7 +33,7 @@ public class Med {
     Dose latestDose;
     Dose nextExpiringDose;
     double activeDoseCount;
-    String nextExpiringDoseExpiresInStr;
+    SpannableString nextExpiringDoseExpiresInStr;
     String lastTakenAtStr;
 
     public Med(int id, String name, int maxDose, int doseHours, String color, Context context) {
@@ -209,7 +216,7 @@ public class Med {
         this.activeDoseCount = activeDoseCount;
     }
 
-    public String getNextExpiringDoseExpiresInStr() {
+    public SpannableString getNextExpiringDoseExpiresInStr() {
         return nextExpiringDoseExpiresInStr;
     }
 
@@ -242,11 +249,17 @@ public class Med {
             double nextExpiringDoseCount = nextExpiringDose.getCount();
             long expiresAtUnix = nextExpiringDose.getTakenAt() + doseDuration;
             String timeAgo = Utils.getRelativeTimeSpanString(context, expiresAtUnix);
-            String countStr = "";
-            if (nextExpiringDoseCount < activeDoseCount) {
-                countStr = "x" + Utils.getStrFromDbl(nextExpiringDoseCount);
-            }
-            nextExpiringDoseExpiresInStr = context.getString(R.string.expires, countStr,
+            String countStr = Utils.getStrFromDbl(nextExpiringDoseCount);
+            String unformatted = context.getResources().getQuantityString(R.plurals.expires,
+                    (int) nextExpiringDoseCount);
+            List<List<ParcelableSpan>> spansList = new ArrayList<>();
+            List<ParcelableSpan> spans = new ArrayList<>();
+            spans.add(new StyleSpan(Typeface.BOLD_ITALIC));
+            spansList.add(spans);
+            spans = new ArrayList<>();
+            spans.add(new StyleSpan(Typeface.BOLD));
+            spansList.add(spans);
+            nextExpiringDoseExpiresInStr = Utils.styleString(unformatted, spansList, countStr,
                     timeAgo + " (" + Utils.simpleFutureTime(context, expiresAtUnix) + ")");
         }
 
