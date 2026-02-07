@@ -182,6 +182,7 @@ public class MedActivity extends AppCompatActivity {
                     }
                     updateTimes();
                     onUpdateDoses();
+                    updateInfo();
                 } catch (Exception e) {
                     Log.w(MedActivity.class.getName(), e);
                 }
@@ -199,6 +200,7 @@ public class MedActivity extends AppCompatActivity {
                 }
                 updateTimes();
                 onUpdateDoses();
+                updateInfo();
                 return;
             }
             if (action.equals("com.cliambrown.broadcast.DOSE_EDITED")) {
@@ -209,6 +211,7 @@ public class MedActivity extends AppCompatActivity {
                     }
                 }
                 updateTimes();
+                updateInfo();
                 return;
             }
             if (action.equals("com.cliambrown.broadcast.DOSE_REMOVED")) {
@@ -220,6 +223,7 @@ public class MedActivity extends AppCompatActivity {
                 }
                 updateTimes();
                 onUpdateDoses();
+                updateInfo();
                 return;
             }
         }
