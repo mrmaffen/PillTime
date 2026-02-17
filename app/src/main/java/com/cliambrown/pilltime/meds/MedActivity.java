@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,15 +33,19 @@ import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.*;
 
 public class MedActivity extends AppCompatActivity {
 
+    // Once the remaining doses ratio has fallen under this threshold, the user should be warned. Currently, this means
+    // that the label is shown in red.
+    public static double REMAINING_DOSES_WARN_THRESHOLD = 0.2;
+
     TextView tv_med_name;
     TextView tv_med_maxDoseInfo;
     TextView tv_med_takenInPast;
+    TextView tv_med_remainingDoses;
     LinearLayout ll_med_no_doses;
     ExtendedFloatingActionButton btn_med_add_dose;
 
@@ -69,6 +72,7 @@ public class MedActivity extends AppCompatActivity {
         tv_med_name = findViewById(R.id.tv_med_name);
         tv_med_maxDoseInfo = findViewById(R.id.tv_med_maxDoseInfo);
         tv_med_takenInPast = findViewById(R.id.tv_med_takenInPast);
+        tv_med_remainingDoses = findViewById(R.id.tv_med_remainingDoses);
         ll_med_no_doses = findViewById(R.id.ll_med_no_doses);
         btn_med_add_dose = findViewById(R.id.btn_med_add_dose);
 
@@ -244,6 +248,17 @@ public class MedActivity extends AppCompatActivity {
     public void updateInfo() {
         if (med == null) return;
         tv_med_name.setText(med.getName());
+        if (med.isRemainingDosesTracked()) {
+            int colorAttrResId = R.attr.textColorPrimary;
+            if (med.getCurrentlyRemainingDoses() / med.getRemainingDosesReported() <= REMAINING_DOSES_WARN_THRESHOLD) {
+                colorAttrResId = R.attr.redText;
+            }
+            tv_med_remainingDoses.setTextColor(ThemeHelper.getThemeAttr(colorAttrResId, MedActivity.this));
+            tv_med_remainingDoses.setVisibility(View.VISIBLE);
+            tv_med_remainingDoses.setText(med.getRemainingDosesStr());
+        } else {
+            tv_med_remainingDoses.setVisibility(View.GONE);
+        }
         String colorName = med.getColor();
         int attrResourceID = Utils.getResourceIdentifier(MedActivity.this, colorName + "Text", "attr");
         int textColor = ThemeHelper.getThemeAttr(attrResourceID, MedActivity.this);

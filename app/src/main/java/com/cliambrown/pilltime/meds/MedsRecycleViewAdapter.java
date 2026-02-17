@@ -6,10 +6,6 @@ import android.content.Intent;
 import android.graphics.*;
 import android.text.ParcelableSpan;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +27,6 @@ import com.cliambrown.pilltime.doses.Dose;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleViewAdapter.MedViewHolder> {
 
@@ -147,6 +142,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
         TextView tv_rvMed_takenInPast;
         TextView tv_rvMed_latestDoseExpiresIn;
         TextView tv_rvMed_lastTaken;
+        TextView tv_rvMed_remainingDoses;
         ImageButton btn_rvMed_more;
         Med med;
         Context context;
@@ -160,6 +156,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             tv_rvMed_takenInPast = itemView.findViewById(R.id.tv_rvMed_takenInPast);
             tv_rvMed_latestDoseExpiresIn = itemView.findViewById(R.id.tv_rvMed_latestDoseExpiresIn);
             tv_rvMed_lastTaken = itemView.findViewById(R.id.tv_rvMed_lastTaken);
+            tv_rvMed_remainingDoses = itemView.findViewById(R.id.tv_rvMed_remainingDoses);
             btn_rvMed_more = itemView.findViewById(R.id.btn_rvMed_more);
         }
 
@@ -201,6 +198,18 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
                 // Do nothing
             }
             tv_rvMed_name.setTextColor(textColor);
+            //tv_rvMed_remainingDoses.setTextColor(textColor);
+            if (med.isRemainingDosesTracked()) {
+                int colorAttrResId = R.attr.buttonText;
+                if (med.getCurrentlyRemainingDoses() / med.getRemainingDosesReported() <= 0.33) {
+                    colorAttrResId = R.attr.redTextInverse;
+                }
+                tv_rvMed_remainingDoses.setTextColor(ThemeHelper.getThemeAttr(colorAttrResId, context));
+                tv_rvMed_remainingDoses.setVisibility(View.VISIBLE);
+                tv_rvMed_remainingDoses.setText(context.getString(R.string.remaining_doses, med.getRemainingDosesStr()));
+            } else {
+                tv_rvMed_remainingDoses.setVisibility(View.GONE);
+            }
             ll_rvMed_medInfo.getBackground().setColorFilter(new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
             tv_rvMed_maxDoseInfo.setText(med.getMaxDoseInfo());
             int colorAttrResId = R.attr.textColorPrimary;

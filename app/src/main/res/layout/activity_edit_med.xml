@@ -88,6 +88,61 @@
 
             </LinearLayout>
 
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_editMed_trackRemainingDoses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/remaining_doses_track"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_editMed_doseInfo" />
+
+            <LinearLayout
+                android:id="@+id/ll_editMed_trackRemainingDoses"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/switch_editMed_trackRemainingDoses"
+                android:gravity="center_vertical"
+                android:visibility="visible" >
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remaining_doses_amount"
+                        android:textColor="?attr/colorPrimary" />
+
+                <NumberPicker
+                        android:id="@+id/np_editMed_remainingDoses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp" />
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_editMed_remainingReportedAt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ll_editMed_trackRemainingDoses"
+                    android:textColor="?attr/lightText"
+                    android:text="@string/remaining_doses_reported_at"
+                    android:visibility="visible"/>
+
             <TextView
                 android:id="@+id/tv_editMed_colorLabel"
                 android:layout_width="wrap_content"
@@ -98,7 +153,7 @@
                 android:text="@string/color"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ll_editMed_doseInfo" />
+                app:layout_constraintTop_toBottomOf="@id/tv_editMed_remainingReportedAt" />
 
             <androidx.constraintlayout.helper.widget.Flow
                 android:id="@+id/flow_editMed_colors"

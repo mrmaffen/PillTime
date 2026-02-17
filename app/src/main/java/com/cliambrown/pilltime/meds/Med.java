@@ -5,13 +5,10 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.ParcelableSpan;
 import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import androidx.annotation.NonNull;
 
 import com.cliambrown.pilltime.R;
-import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.cliambrown.pilltime.doses.Dose;
 
@@ -26,6 +23,9 @@ public class Med {
     private int maxDose;
     private int doseHours;
     private String color;
+    private boolean remainingDosesTracked;
+    private double remainingDosesReported;
+    private long remainingDosesReportedAt;
     private final List<Dose> doses = new ArrayList<>();
     private Context context;
     private boolean hasLoadedAllDoses;
@@ -35,13 +35,18 @@ public class Med {
     double activeDoseCount;
     SpannableString nextExpiringDoseExpiresInStr;
     String lastTakenAtStr;
+    private double remainingDosesCurrently;
 
-    public Med(int id, String name, int maxDose, int doseHours, String color, Context context) {
+    public Med(int id, String name, int maxDose, int doseHours, String color, boolean remainingDosesTracked,
+               double remainingDosesReported, long remainingDosesReportedAt, Context context) {
         this.id = id;
         this.name = name;
         this.maxDose = maxDose;
         this.doseHours = doseHours;
         this.color = color;
+        this.remainingDosesTracked = remainingDosesTracked;
+        this.remainingDosesReported = remainingDosesReported;
+        this.remainingDosesReportedAt = remainingDosesReportedAt;
         this.context = context;
         this.hasLoadedAllDoses = false;
     }
@@ -54,6 +59,10 @@ public class Med {
                 ", name='" + name + '\'' +
                 ", maxDose=" + maxDose +
                 ", doseHours=" + doseHours +
+                ", color=" + color +
+                ", remainingDosesTracked=" + remainingDosesTracked +
+                ", remainingDosesReported=" + remainingDosesReported +
+                ", remainingDosesReportedAt=" + remainingDosesReportedAt +
                 ", doses=" + doses +
                 '}';
     }
@@ -97,6 +106,57 @@ public class Med {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    /**
+     * @return boolean indicating whether the user wants the remaining doses to be tracked
+     */
+    public boolean isRemainingDosesTracked() {
+        return remainingDosesTracked;
+    }
+
+    /**
+     * @param remainingDosesTracked boolean indicating whether the user wants the remaining doses to be tracked
+     */
+    public void setRemainingDosesTracked(boolean remainingDosesTracked) {
+        this.remainingDosesTracked = remainingDosesTracked;
+    }
+
+    /**
+     * @return timestamp in seconds since epoch, which tells us when the user has last reported their remaining doses
+     */
+    public long getRemainingDosesReportedAt() {
+        return remainingDosesReportedAt;
+    }
+
+    /**
+     * @param remainingDosesReportedAt timestamp in seconds since epoch, which tells us when the user has last reported
+     *                                their remaining doses
+     */
+    public void setRemainingDosesReportedAt(long remainingDosesReportedAt) {
+        this.remainingDosesReportedAt = remainingDosesReportedAt;
+    }
+
+    /**
+     * @return the amount of remaining doses reported by the user
+     */
+    public double getRemainingDosesReported() {
+        return remainingDosesReported;
+    }
+
+    /**
+     * @param remainingDosesReported the amount of remaining doses reported by the user
+     */
+    public void setRemainingDosesReported(double remainingDosesReported) {
+        this.remainingDosesReported = remainingDosesReported;
+    }
+
+    /**
+     * @return number that has been decremented by however many doses have been taken since last report of remaining
+     * doses. Indicates the actually still available amount of remaining doses.
+     */
+    public double getCurrentlyRemainingDoses() {
+        return remainingDosesCurrently;
     }
 
     public String getMaxDoseInfo() {
@@ -224,6 +284,10 @@ public class Med {
         return lastTakenAtStr;
     }
 
+    public String getRemainingDosesStr() {
+        return (int) getCurrentlyRemainingDoses() + "/" + (int) getRemainingDosesReported();
+    }
+
     public void updateTimes() {
         double doseCount = 0.0D;
         long now = System.currentTimeMillis() / 1000L;
@@ -231,7 +295,10 @@ public class Med {
         long earliestActiveTakenAt = now - doseDuration;
         Dose loopNextExpiringDose = null;
         Dose loopLatestDose = null;
+        remainingDosesCurrently = remainingDosesReported;
         for (Dose dose : doses) {
+            if (dose.getTakenAt() >= remainingDosesReportedAt && remainingDosesCurrently > 0)
+                remainingDosesCurrently -= dose.getCount();
             if (dose.getTakenAt() > now) continue;
             if (loopLatestDose == null) loopLatestDose = dose;
             if (dose.getTakenAt() > earliestActiveTakenAt) {

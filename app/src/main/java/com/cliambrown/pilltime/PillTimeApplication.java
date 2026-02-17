@@ -136,6 +136,9 @@ public class PillTimeApplication extends Application {
             listMed.setMaxDose(med.getMaxDose());
             listMed.setDoseHours(med.getDoseHours());
             listMed.setColor(med.getColor());
+            listMed.setRemainingDosesTracked(med.isRemainingDosesTracked());
+            listMed.setRemainingDosesReported(med.getRemainingDosesReported());
+            listMed.setRemainingDosesReportedAt(med.getRemainingDosesReportedAt());
             listMed.updateTimes();
             Intent intent = new Intent();
             intent.setAction("com.cliambrown.broadcast.MED_EDITED");

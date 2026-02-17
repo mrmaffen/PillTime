@@ -96,6 +96,10 @@
     <string name="notifications_header">Standard für Benachrichtigungen</string>
     <string name="notify_expiring_dose">Benachrichtigen, wenn eine Dosis abläuft</string>
     <string name="notification_sound">Ton bei Benachrichtigung abspielen</string>
+    <string name="remaining_doses_track">Dosisvorrat im Blick behalten</string>
+    <string name="remaining_doses_amount">Dosen aktuell auf Vorrat:</string>
+    <string name="remaining_doses_reported_at">Vorrat zuletzt angegeben: %1$s</string>
+    <string name="remaining_doses">Vorrat: %1$s</string>
 
     <string name="toast_dose_saved">Dosis gespeichert</string>
     <string name="toast_med_saved">Medikation gespeichert</string>

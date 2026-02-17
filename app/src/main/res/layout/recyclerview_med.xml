@@ -110,7 +110,18 @@
                     android:padding="8dp"
                     android:breakStrategy="balanced"
                     android:textSize="16sp"
-                    android:textColor="?attr/lightText" />
+                    android:textColor="?attr/lightText"
+                    android:text="@string/last_taken"/>
+
+                <TextView
+                    android:id="@+id/tv_rvMed_remainingDoses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="8dp"
+                    android:breakStrategy="balanced"
+                    android:textSize="16sp"
+                    android:text="@string/remaining_doses"/>
 
             </LinearLayout>
 

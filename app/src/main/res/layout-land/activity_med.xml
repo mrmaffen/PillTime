@@ -40,6 +40,14 @@
             android:layout_weight="0"
             android:singleLine="true" />
 
+        <TextView
+            android:id="@+id/tv_med_remainingDoses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_weight="0"
+            android:singleLine="true" />
+
     </LinearLayout>
 
     <com.google.android.material.divider.MaterialDivider

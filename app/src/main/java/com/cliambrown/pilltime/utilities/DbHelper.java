@@ -24,12 +24,16 @@ import java.util.List;
 public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "pilltime.db";
+    public static final int DB_VERSION = 4;
 
     public static final String MEDS_TABLE = "meds";
     public static final String MEDS_COL_NAME = "name";
     public static final String MEDS_COL_MAX_DOSE = "max_dose";
     public static final String MEDS_COL_DOSE_HOURS = "dose_hours";
     public static final String MEDS_COL_COLOR = "color";
+    public static final String MEDS_COL_REMAINING_DOSES_TRACKED = "remaining_doses_tracked";
+    public static final String MEDS_COL_REMAINING_DOSES_REPORTED = "remaining_doses_reported";
+    public static final String MEDS_COL_REMAINING_DOSES_REPORTED_AT = "remaining_doses_reported_at";
 
     public static final String DOSES_TABLE = "doses";
     public static final String DOSES_COL_MED_ID = "med_id";
@@ -41,7 +45,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private final Context context;
 
     public DbHelper(Context context) {
-        super(context, DB_NAME, null, 3);
+        super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
     }
 
@@ -63,7 +67,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 MEDS_COL_NAME + " TEXT, " +
                 MEDS_COL_MAX_DOSE + " INTEGER, " +
                 MEDS_COL_DOSE_HOURS + " INTEGER," +
-                MEDS_COL_COLOR + " TEXT)";
+                MEDS_COL_COLOR + " TEXT," +
+                MEDS_COL_REMAINING_DOSES_TRACKED + " INTEGER," +
+                MEDS_COL_REMAINING_DOSES_REPORTED + " REAL," +
+                MEDS_COL_REMAINING_DOSES_REPORTED_AT + " REAL)";
         db.execSQL(stmt);
         String stmt2 = "CREATE TABLE IF NOT EXISTS " + DOSES_TABLE + " " +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -84,10 +91,11 @@ public class DbHelper extends SQLiteOpenHelper {
             db.execSQL("ALTER TABLE " + DOSES_TABLE + " ADD COLUMN " + DOSES_COL_NOTIFY + " INTEGER");
             db.execSQL("ALTER TABLE " + DOSES_TABLE + " ADD COLUMN " + DOSES_COL_NOTIFY_SOUND + " INTEGER");
         }
-    }
-
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 4) {
+            db.execSQL("ALTER TABLE " + MEDS_TABLE + " ADD COLUMN " + MEDS_COL_REMAINING_DOSES_TRACKED + " INTEGER");
+            db.execSQL("ALTER TABLE " + MEDS_TABLE + " ADD COLUMN " + MEDS_COL_REMAINING_DOSES_REPORTED + " REAL");
+            db.execSQL("ALTER TABLE " + MEDS_TABLE + " ADD COLUMN " + MEDS_COL_REMAINING_DOSES_REPORTED_AT + " REAL");
+        }
     }
 
     public List<Med> getAllMeds() {
@@ -110,6 +118,9 @@ public class DbHelper extends SQLiteOpenHelper {
             int col_maxDose = cursor.getColumnIndex(MEDS_COL_MAX_DOSE);
             int col_doseHours = cursor.getColumnIndex(MEDS_COL_DOSE_HOURS);
             int col_color = cursor.getColumnIndex(MEDS_COL_COLOR);
+            int col_remainingDosesTracked = cursor.getColumnIndex(MEDS_COL_REMAINING_DOSES_TRACKED);
+            int col_remainingDosesReported = cursor.getColumnIndex(MEDS_COL_REMAINING_DOSES_REPORTED);
+            int col_remainingDosesReportedAt = cursor.getColumnIndex(MEDS_COL_REMAINING_DOSES_REPORTED_AT);
 
             do {
                 int medID = cursor.getInt(col_id);
@@ -117,7 +128,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 int maxDose = cursor.getInt(col_maxDose);
                 int doseHours = cursor.getInt(col_doseHours);
                 String color = cursor.getString(col_color);
-                returnList.add(new Med(medID, medName, maxDose, doseHours, color, context));
+                boolean remainingDosesTracked = cursor.getInt(col_remainingDosesTracked) != 0;
+                double remainingDosesReported = cursor.getDouble(col_remainingDosesReported);
+                long remainingDosesReportedAt = cursor.getLong(col_remainingDosesReportedAt);
+                returnList.add(new Med(medID, medName, maxDose, doseHours, color, remainingDosesTracked,
+                        remainingDosesReported, remainingDosesReportedAt, context));
             } while (cursor.moveToNext());
         }
 
@@ -139,11 +154,18 @@ public class DbHelper extends SQLiteOpenHelper {
         int col_maxDose = cursor.getColumnIndex(MEDS_COL_MAX_DOSE);
         int col_doseHours = cursor.getColumnIndex(MEDS_COL_DOSE_HOURS);
         int col_color = cursor.getColumnIndex(MEDS_COL_COLOR);
+        int col_remainingDosesTracked = cursor.getColumnIndex(MEDS_COL_REMAINING_DOSES_TRACKED);
+        int col_remainingDosesReported = cursor.getColumnIndex(MEDS_COL_REMAINING_DOSES_REPORTED);
+        int col_remainingDosesReportedAt = cursor.getColumnIndex(MEDS_COL_REMAINING_DOSES_REPORTED_AT);
         String medName = cursor.getString(col_name);
         int maxDose = cursor.getInt(col_maxDose);
         int doseHours = cursor.getInt(col_doseHours);
         String color = cursor.getString(col_color);
-        Med med = new Med(medID, medName, maxDose, doseHours, color, context);
+        boolean remainingDosesTracked = cursor.getInt(col_remainingDosesTracked) != 0;
+        double remainingDosesReported = cursor.getDouble(col_remainingDosesReported);
+        long remainingDosesReportedAt = cursor.getLong(col_remainingDosesReportedAt);
+        Med med = new Med(medID, medName, maxDose, doseHours, color, remainingDosesTracked, remainingDosesReported,
+                remainingDosesReportedAt, context);
 
         long now = System.currentTimeMillis() / 1000L;
         long startTime = now - (med.getDoseHours() * 60L * 60L);
@@ -188,6 +210,9 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put(MEDS_COL_MAX_DOSE, med.getMaxDose());
         cv.put(MEDS_COL_DOSE_HOURS, med.getDoseHours());
         cv.put(MEDS_COL_COLOR, med.getColor());
+        cv.put(MEDS_COL_REMAINING_DOSES_TRACKED, med.isRemainingDosesTracked());
+        cv.put(MEDS_COL_REMAINING_DOSES_REPORTED, med.getRemainingDosesReported());
+        cv.put(MEDS_COL_REMAINING_DOSES_REPORTED_AT, med.getRemainingDosesReportedAt());
         long insertID = db.insert(MEDS_TABLE, null, cv);
         db.close();
         return (int) insertID;
@@ -201,6 +226,9 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put(MEDS_COL_MAX_DOSE, med.getMaxDose());
         cv.put(MEDS_COL_DOSE_HOURS, med.getDoseHours());
         cv.put(MEDS_COL_COLOR, med.getColor());
+        cv.put(MEDS_COL_REMAINING_DOSES_TRACKED, med.isRemainingDosesTracked());
+        cv.put(MEDS_COL_REMAINING_DOSES_REPORTED, med.getRemainingDosesReported());
+        cv.put(MEDS_COL_REMAINING_DOSES_REPORTED_AT, med.getRemainingDosesReportedAt());
         String[] whereArgs = new String[]{String.valueOf(med.getId())};
         int update = db.update(MEDS_TABLE, cv, "id = ?", whereArgs);
         db.close();

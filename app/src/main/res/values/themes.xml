@@ -24,6 +24,7 @@
         <item name="lighterText">@color/gray_300</item>
         <item name="buttonText">@color/white</item>
 
+        <item name="redTextInverse">@color/red_300</item>
         <item name="redText">@color/red_600</item>
         <item name="orangeText">@color/orange_700</item>
         <item name="amberText">@color/amber_700</item>

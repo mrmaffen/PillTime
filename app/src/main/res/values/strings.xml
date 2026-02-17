@@ -96,6 +96,10 @@
     <string name="notifications_header">Notification Defaults</string>
     <string name="notify_expiring_dose">Show a notification when dose expires</string>
     <string name="notification_sound">Make a sound with the notification</string>
+    <string name="remaining_doses_track">Track remaining doses in stock</string>
+    <string name="remaining_doses_amount">Doses currently left in stock:</string>
+    <string name="remaining_doses_reported_at">Remaining doses last reported: %1$s</string>
+    <string name="remaining_doses">Remaining: %1$s</string>
 
     <string name="toast_dose_saved">Dose saved</string>
     <string name="toast_med_saved">Med saved</string>

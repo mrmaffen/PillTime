@@ -1,8 +1,12 @@
 package com.cliambrown.pilltime.meds;
 
+import android.graphics.Typeface;
+import android.text.ParcelableSpan;
+import android.text.style.StyleSpan;
 import android.widget.*;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.helper.widget.Flow;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -18,11 +22,8 @@ import com.cliambrown.pilltime.R;
 import com.cliambrown.pilltime.utilities.ThemeHelper;
 import com.cliambrown.pilltime.utilities.Utils;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class EditMedActivity extends SimpleMenuActivity {
 
@@ -31,6 +32,10 @@ public class EditMedActivity extends SimpleMenuActivity {
     NumberPicker np_editMed_maxDose;
     NumberPicker np_editMed_doseHoursDays;
     AppCompatSpinner sp_dayshours_picker;
+    SwitchCompat switch_editMed_trackRemainingDoses;
+    LinearLayout ll_editMed_trackRemainingDoses;
+    NumberPicker np_editMed_remainingDoses;
+    TextView tv_editMed_remainingReportedAt;
     Flow flow_editMed_colors;
     ExtendedFloatingActionButton btn_editMed_save;
     PillTimeApplication mApp;
@@ -74,10 +79,24 @@ public class EditMedActivity extends SimpleMenuActivity {
         // Apply the adapter to the spinner.
         sp_dayshours_picker.setAdapter(adapter);
 
+        np_editMed_remainingDoses = findViewById(R.id.np_editMed_remainingDoses);
+        np_editMed_remainingDoses.setMinValue(1);
+        np_editMed_remainingDoses.setMaxValue(1000);
+        np_editMed_remainingDoses.setWrapSelectorWheel(false);
+
         Intent intent = getIntent();
         medID = intent.getIntExtra("id", -1);
         mApp = (PillTimeApplication) this.getApplication();
         Med med = mApp.getMed(medID);
+
+        tv_editMed_remainingReportedAt = findViewById(R.id.tv_editMed_remainingReportedAt);
+        ll_editMed_trackRemainingDoses = findViewById(R.id.ll_editMed_trackRemainingDoses);
+        switch_editMed_trackRemainingDoses = findViewById(R.id.switch_editMed_trackRemainingDoses);
+        switch_editMed_trackRemainingDoses.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            ll_editMed_trackRemainingDoses.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            tv_editMed_remainingReportedAt.setVisibility(isChecked && med.getRemainingDosesReportedAt() > 0 ?
+                    View.VISIBLE : View.GONE);
+        });
 
         colors = getResources().getStringArray(R.array.color_options);
 
@@ -89,6 +108,27 @@ public class EditMedActivity extends SimpleMenuActivity {
                 sp_dayshours_picker.setSelection(1, false);
             } else {
                 np_editMed_doseHoursDays.setValue(med.getDoseHours());
+            }
+            if (med.isRemainingDosesTracked()) {
+                switch_editMed_trackRemainingDoses.setChecked(true);
+                ll_editMed_trackRemainingDoses.setVisibility(View.VISIBLE);
+                np_editMed_remainingDoses.setValue((int) med.getCurrentlyRemainingDoses());
+                if (med.getRemainingDosesReportedAt() > 0) {
+                    tv_editMed_remainingReportedAt.setVisibility(View.VISIBLE);
+                    List<List<ParcelableSpan>> spansList = new ArrayList<>();
+                    List<ParcelableSpan> spans = new ArrayList<>();
+                    spans.add(new StyleSpan(Typeface.BOLD));
+                    spansList.add(spans);
+                    String unformatted = getString(R.string.remaining_doses_reported_at);
+                    String timeSpanString = Utils.getRelativeTimeSpanString(this, med.getRemainingDosesReportedAt());
+                    tv_editMed_remainingReportedAt.setText(Utils.styleString(unformatted, spansList, timeSpanString));
+                } else {
+                    tv_editMed_remainingReportedAt.setVisibility(View.GONE);
+                }
+            } else {
+                switch_editMed_trackRemainingDoses.setChecked(false);
+                ll_editMed_trackRemainingDoses.setVisibility(View.GONE);
+                tv_editMed_remainingReportedAt.setVisibility(View.GONE);
             }
             setTitle(getString(R.string.edit_med_title, "\"" + med.getName() +"\""));
             selectedColor = med.getColor();
@@ -148,7 +188,18 @@ public class EditMedActivity extends SimpleMenuActivity {
                 if (isDays) {
                     doseHours *= 24;
                 }
-                med1 = new Med(medID, medName, maxDose, doseHours, selectedColor, EditMedActivity.this);
+                boolean remainingDosesTracked = switch_editMed_trackRemainingDoses.isChecked();
+                int remainingDosesReported = -1;
+                long remainingDosesReportedAt = -1;
+                if (remainingDosesTracked) {
+                    remainingDosesReported = np_editMed_remainingDoses.getValue();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.SECOND, 0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    remainingDosesReportedAt = calendar.getTimeInMillis() / 1000;
+                }
+                med1 = new Med(medID, medName, maxDose, doseHours, selectedColor, remainingDosesTracked,
+                        remainingDosesReported, remainingDosesReportedAt, EditMedActivity.this);
             } catch (Exception e) {
                 Toast.makeText(EditMedActivity.this, "Error saving med: invalid data", Toast.LENGTH_SHORT).show();
                 return;
