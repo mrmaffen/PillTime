@@ -1,1 +1,1 @@
-Gardez une trace des médicaments qui peuvent être pris selon les besoins (et non à une heure précise).
+Suivez les médicaments qui sont pris au besoin (et non à une heure précise)
