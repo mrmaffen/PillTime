@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 case "com.cliambrown.broadcast.MED_EDITED":
                     for (int i = 0; i < meds.size(); ++i) {
                         if (meds.get(i).getId() == medID) {
-                            mAdapter.notifyItemChanged(i, "update_info");
+                            mAdapter.notifyItemChanged(i, "med_edited");
                             recyclerView.scrollToPosition(i);
                             return;
                         }
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 case "com.cliambrown.broadcast.MED_MOVED":
                     int fromPosition = intent.getIntExtra("fromPosition", -1);
                     int toPosition = intent.getIntExtra("toPosition", -1);
+                    mAdapter.notifyItemChanged(fromPosition, "med_edited");
                     mAdapter.notifyItemMoved(fromPosition, toPosition);
                     recyclerView.scrollToPosition(toPosition);
                     return;
@@ -159,8 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 case "com.cliambrown.broadcast.DOSES_REMOVED":
                     for (int i = 0; i < meds.size(); ++i) {
                         if (meds.get(i).getId() == medID) {
-                            mAdapter.notifyItemChanged(i, "update_times");
-                            mAdapter.notifyItemChanged(i, "update_info");
+                            mAdapter.notifyItemChanged(i, "doses_edited");
                             recyclerView.scrollToPosition(i);
                             return;
                         }

@@ -25,6 +25,7 @@ public class Med {
     private boolean isInventoryTracked;
     private double reportedInventory;
     private long inventoryReportedAt;
+    private int defaultDoseCount;
 
     private final List<Dose> doses = new ArrayList<>();
     private boolean hasLoadedAllDoses;
@@ -34,7 +35,7 @@ public class Med {
     private double currentInventory;
 
     public Med(int id, String name, int maxDose, int doseHours, String color, boolean isInventoryTracked,
-               double reportedInventory, long inventoryReportedAt, Context context) {
+               double reportedInventory, long inventoryReportedAt, int defaultDoseCount, Context context) {
         this.context = context;
         this.id = id;
         this.name = name;
@@ -44,6 +45,7 @@ public class Med {
         this.isInventoryTracked = isInventoryTracked;
         this.reportedInventory = reportedInventory;
         this.inventoryReportedAt = inventoryReportedAt;
+        this.defaultDoseCount = defaultDoseCount;
         this.hasLoadedAllDoses = false;
     }
 
@@ -59,6 +61,7 @@ public class Med {
                 ", isInventoryTracked=" + isInventoryTracked +
                 ", reportedInventory=" + reportedInventory +
                 ", inventoryReportedAt=" + inventoryReportedAt +
+                ", defaultDoseCount=" + defaultDoseCount +
                 ", doses=" + doses +
                 '}';
     }
@@ -133,6 +136,12 @@ public class Med {
      */
     public void setInventoryReportedAt(long inventoryReportedAt) {
         this.inventoryReportedAt = inventoryReportedAt;
+    }
+
+    public int getDefaultDoseCount() { return defaultDoseCount; }
+
+    public void setDefaultDoseCount(int defaultDoseCount) {
+        this.defaultDoseCount = defaultDoseCount;
     }
 
     /**

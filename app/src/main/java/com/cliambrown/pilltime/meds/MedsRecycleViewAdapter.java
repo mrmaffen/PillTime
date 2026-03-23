@@ -3,6 +3,7 @@ package com.cliambrown.pilltime.meds;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
@@ -15,8 +16,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cliambrown.pilltime.PillTimeApplication;
@@ -63,6 +66,7 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
 
         holder.updateInfo();
         holder.updateTimes();
+        holder.updateInventory();
 
         holder.ll_rvMed_medInfo.setOnClickListener(view -> {
             Intent intent = new Intent(context, MedActivity.class);
@@ -74,6 +78,22 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             Intent intent = new Intent(context, EditDoseActivity.class);
             intent.putExtra("medID", medID);
             context.startActivity(intent);
+        });
+
+        holder.btn_rvMed_add.setOnLongClickListener(view -> {
+            double count = (double) holder.med.getDefaultDoseCount();
+            if (count <= 0.0) count = 1.0;
+            long takenAt = System.currentTimeMillis() / 1000L;
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean notify = prefs.getBoolean("notify_default", false);
+            boolean notifySound = prefs.getBoolean("notify_sound_default", false);
+            Dose dose1 = new Dose(-1, medID, count, takenAt, notify, notifySound, context);
+            boolean added = mApp.addDose(holder.med, dose1);
+            if (added) {
+                Toast.makeText(context, R.string.toast_dose_saved,
+                        Toast.LENGTH_SHORT).show();
+            }
+            return true;
         });
 
         holder.btn_rvMed_more.setOnClickListener(view -> {
@@ -124,8 +144,15 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             holder.updateTimes();
             return;
         }
-        if (payloads.get(0) == "update_info") {
+        if (payloads.get(0) == "med_edited") {
             holder.updateInfo();
+            holder.updateTimes();
+            holder.updateInventory();
+            return;
+        }
+        if (payloads.get(0) == "doses_edited") {
+            holder.updateTimes();
+            holder.updateInventory();
             return;
         }
     }
@@ -201,6 +228,12 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             spans.add(new StyleSpan(Typeface.BOLD));
             spansList.add(spans);
             tv_rvMed_lastTaken.setText(Utils.styleString(unformatted, spansList, timeAgoString));
+            int colorAttrResId = R.attr.textColorPrimary;
+            if (currentTotalDoseCount >= med.getMaxDose()) {
+                colorAttrResId = R.attr.redText;
+            }
+            tv_rvMed_takenInPast.setText(Utils.buildTakenInPastString(context, colorAttrResId, currentTotalDoseCount,
+                    med.getDoseHours()));
         }
 
         public void updateInfo() {
@@ -215,6 +248,11 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
                 // Do nothing
             }
             tv_rvMed_name.setTextColor(textColor);
+            ll_rvMed_medInfo.getBackground().setColorFilter(new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
+            tv_rvMed_maxDoseInfo.setText(med.getMaxDoseInfoStr());
+        }
+
+        public void updateInventory() {
             if (med.getIsInventoryTracked()) {
                 if (med.getIsInventoryLow()) {
                     tv_rvMed_inventory.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_warning, 0, 0, 0);
@@ -226,14 +264,6 @@ public class MedsRecycleViewAdapter extends RecyclerView.Adapter<MedsRecycleView
             } else {
                 ll_rvMed_inventory.setVisibility(View.GONE);
             }
-            ll_rvMed_medInfo.getBackground().setColorFilter(new PorterDuffColorFilter(textColor, PorterDuff.Mode.SRC));
-            tv_rvMed_maxDoseInfo.setText(med.getMaxDoseInfoStr());
-            int colorAttrResId = R.attr.textColorPrimary;
-            if (med.getActiveDoseCount() >= med.getMaxDose()) {
-                colorAttrResId = R.attr.redText;
-            }
-            tv_rvMed_takenInPast.setText(Utils.buildTakenInPastString(context, colorAttrResId, med.getActiveDoseCount(),
-                    med.getDoseHours()));
         }
     }
 }

@@ -41,6 +41,7 @@ public class EditMedActivity extends SimpleMenuActivity {
     NumberPicker np_editMed_maxDose;
     NumberPicker np_editMed_doseHoursDays;
     AppCompatSpinner sp_editMed_daysHours;
+    NumberPicker np_editMed_defaultDoseCount;
     SwitchCompat switch_editMed_trackInventory;
     LinearLayout ll_editMed_trackInventory;
     NumberPicker np_editMed_currentInventory;
@@ -72,6 +73,11 @@ public class EditMedActivity extends SimpleMenuActivity {
         np_editMed_maxDose.setMinValue(1);
         np_editMed_maxDose.setMaxValue(100);
         np_editMed_maxDose.setWrapSelectorWheel(false);
+
+        np_editMed_defaultDoseCount = findViewById(R.id.np_editMed_defaultDoseCount);
+        np_editMed_defaultDoseCount.setMinValue(1);
+        np_editMed_defaultDoseCount.setMaxValue(100);
+        np_editMed_defaultDoseCount.setWrapSelectorWheel(false);
 
         np_editMed_doseHoursDays = findViewById(R.id.np_editMed_doseHoursDays);
         np_editMed_doseHoursDays.setMinValue(1);
@@ -118,6 +124,7 @@ public class EditMedActivity extends SimpleMenuActivity {
             } else {
                 np_editMed_doseHoursDays.setValue(med.getDoseHours());
             }
+            np_editMed_defaultDoseCount.setValue(med.getDefaultDoseCount());
             if (med.getIsInventoryTracked()) {
                 switch_editMed_trackInventory.setChecked(true);
                 ll_editMed_trackInventory.setVisibility(View.VISIBLE);
@@ -190,6 +197,7 @@ public class EditMedActivity extends SimpleMenuActivity {
             String medName;
             int maxDose;
             int doseHours;
+            int defaultDoseCount;
 
             try {
                 medName = et_editMed_name.getText().toString();
@@ -199,6 +207,7 @@ public class EditMedActivity extends SimpleMenuActivity {
                 if (isDays) {
                     doseHours *= 24;
                 }
+                defaultDoseCount = np_editMed_defaultDoseCount.getValue();
                 boolean isInventoryTracked = switch_editMed_trackInventory.isChecked();
                 double reportedInventory = -1d;
                 long inventoryReportedAt = -1L;
@@ -208,7 +217,7 @@ public class EditMedActivity extends SimpleMenuActivity {
                     inventoryReportedAt = calendar.getTimeInMillis() / 1000;
                 }
                 med1 = new Med(medID, medName, maxDose, doseHours, selectedColor, isInventoryTracked,
-                        reportedInventory, inventoryReportedAt, EditMedActivity.this);
+                        reportedInventory, inventoryReportedAt, defaultDoseCount, EditMedActivity.this);
             } catch (Exception e) {
                 Toast.makeText(EditMedActivity.this, "Error saving med: invalid data", Toast.LENGTH_SHORT).show();
                 return;

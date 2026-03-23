@@ -13,6 +13,7 @@
         <item quantity="other">max %1$d / %2$d jours</item>
     </plurals>
     <string name="every">chaque</string>
+    <string name="default_doses">Quantité habituellement prise :</string>
     <string name="new_med">Nouveau médicament</string>
     <string name="history">Historique</string>
     <!-- Example: "[X] meds taken in [the] past [Y] hours" -->

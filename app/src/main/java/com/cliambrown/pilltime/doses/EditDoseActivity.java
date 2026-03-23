@@ -104,7 +104,7 @@ public class EditDoseActivity extends SimpleMenuActivity {
             selectedDatetime.setTimeInMillis(dose.getTakenAt() * 1000L);
         } else {
             long now = System.currentTimeMillis() / 1000L;
-            dose = new Dose(doseID, medID, med.getMaxDose(), now, getDefaultNotify(), getDefaultNotifySound(), EditDoseActivity.this);
+            dose = new Dose(doseID, medID, med.getDefaultDoseCount(), now, getDefaultNotify(), getDefaultNotifySound(), EditDoseActivity.this);
             setTitle(getString(R.string.new_dose_title, "\"" + med.getName() + "\""));
         }
 

@@ -13,6 +13,7 @@
         <item quantity="other">Max %1$d / %2$d Tage</item>
     </plurals>
     <string name="every">alle</string>
+    <string name="default_doses">Die üblicherweise eingenommene Menge:</string>
     <string name="new_med">Neue Medikation</string>
     <string name="history">Verlauf</string>
     <!-- Example: "[X] meds taken in [the] past [Y] hours" -->

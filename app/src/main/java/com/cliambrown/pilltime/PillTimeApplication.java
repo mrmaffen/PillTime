@@ -136,6 +136,7 @@ public class PillTimeApplication extends Application {
             listMed.setIsInventoryTracked(med.getIsInventoryTracked());
             listMed.setReportedInventory(med.getReportedInventory());
             listMed.setInventoryReportedAt(med.getInventoryReportedAt());
+            listMed.setDefaultDoseCount(med.getDefaultDoseCount());
             listMed.updateTimes();
             Intent intent = new Intent();
             intent.setAction("com.cliambrown.broadcast.MED_EDITED");
