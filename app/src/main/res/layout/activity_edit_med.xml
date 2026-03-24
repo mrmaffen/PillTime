@@ -60,7 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/max"
-                    android:textColor="?attr/colorPrimary" />
+                    android:textColor="?attr/colorPrimary"
+                    android:labelFor="@+id/np_editMed_maxDose"/>
 
                 <NumberPicker
                     android:id="@+id/np_editMed_maxDose"
@@ -73,6 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/every"
+                    android:labelFor="@id/sp_editMed_daysHours"
                     android:textColor="?attr/colorPrimary" />
 
                 <NumberPicker
@@ -86,6 +88,7 @@
                     android:id="@+id/sp_editMed_daysHours"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:hint="@string/hour_or_day"
                     android:minHeight="48dp"/>
 
             </LinearLayout>
@@ -107,6 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_doses"
+                    android:labelFor="@id/np_editMed_defaultDoseCount"
                     android:textColor="?attr/colorPrimary" />
 
                 <NumberPicker
@@ -154,6 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/reported_inventory"
+                    android:labelFor="@id/np_editMed_currentInventory"
                     android:textColor="?attr/colorPrimary" />
 
             </LinearLayout>

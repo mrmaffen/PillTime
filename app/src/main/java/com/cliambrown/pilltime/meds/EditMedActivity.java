@@ -177,6 +177,7 @@ public class EditMedActivity extends SimpleMenuActivity {
             drawableID = Utils.getResourceIdentifier(this, "round_button_" + colorName, "drawable");
             imageButton.setBackgroundResource(drawableID);
             imageButton.setFocusable(true);
+            imageButton.setContentDescription(R.string.set_med_color + " " + Utils.getResourceIdentifier(this, colorName, "string"));
             colorButtons.add(imageButton);
 
             imageButton.setOnClickListener(view -> {

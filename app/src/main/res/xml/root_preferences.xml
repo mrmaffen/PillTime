@@ -79,14 +79,6 @@
             app:summary="@string/disclaimer_2"/>
 
         <Preference
-            app:key="dev_decree"
-            app:iconSpaceReserved="false"
-            app:selectable="false"
-            app:persistent="false"
-            app:title="@string/dev_decree_title"
-            app:summary="@string/dev_decree_notice"/>
-
-        <Preference
             app:key="github_link"
             app:iconSpaceReserved="false"
             app:title="@string/info_link_title"
@@ -95,6 +87,24 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/cliambrown/PillTime"
                 android:title="App repo on GitHub"/>
+        </Preference>
+
+        <Preference
+            app:key="dev_decree"
+            app:iconSpaceReserved="false"
+            app:selectable="false"
+            app:persistent="false"
+            app:title="@string/dev_decree_title"
+            app:summary="@string/dev_decree_notice"/>
+
+        <Preference
+            app:key="keepandroidopen_link"
+            app:iconSpaceReserved="false"
+            android:summary="https://keepandroidopen.org">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://keepandroidopen.org"
+                android:title="Keep Android Open"/>
         </Preference>
 
         <!-- Quick hacky way of adding some padding to the bottom -->

@@ -205,23 +205,23 @@ public class MainActivity extends AppCompatActivity {
         if (timer != null) timer.cancel();
     }
 
-    public static class DevDecreeDialogFragment extends DialogFragment {
+    public static class welcomeDialogFragment extends DialogFragment {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(R.string.dev_decree_title)
-                    .setMessage(R.string.dev_decree_notice)
+            builder.setTitle(R.string.welcome_dialog_title)
+                    .setMessage(R.string.welcome_dialog_content)
                     .setPositiveButton(R.string.close, (dialog, id) -> {
                         SharedPreferences.Editor editor = prefs.edit();
-                        editor.putBoolean("show_dev_decree_dialog", false);
+                        editor.putBoolean("show_v13_dialog", false);
                         editor.apply();
                         dialog.cancel();
                     })
-                    .setNegativeButton(R.string.learn_more, (dialog, id) -> {
+                    .setNegativeButton(R.string.keep_android_open, (dialog, id) -> {
                         Intent browserIntent = new Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse("https://f-droid.org/en/2025/09/29/google-developer-registration-decree.html")
+                                Uri.parse("https://keepandroidopen.org/")
                         );
                         startActivity(browserIntent);
                     });
@@ -237,11 +237,16 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyItemChanged(i);
         }
         startUpdateTimer();
-        boolean showDevDecreeDialog = prefs.getBoolean("show_dev_decree_dialog", true);
-        if (showDevDecreeDialog) {
+
+        // Previous welcome dialog prefs:
+        // show_dev_decree_dialog
+        // show_v13_dialog
+        boolean showWelcomeDialog = prefs.getBoolean("show_v13_dialog", true);
+        if (showWelcomeDialog) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            new DevDecreeDialogFragment().show(fragmentManager, "DEV_DECREE_DIALOG");
+            new welcomeDialogFragment().show(fragmentManager, "WELCOME_DIALOG");
         }
+
     }
 
     @Override

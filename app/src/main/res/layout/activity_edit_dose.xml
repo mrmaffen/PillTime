@@ -26,6 +26,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/amount_taken"
+                android:labelFor="@id/et_editDose_count"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -113,6 +114,7 @@
 
                 <TextView
                     android:id="@+id/tv_editDose_takenAtTime"
+                    android:hint="@string/dose_taken_at_time"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="0"
@@ -126,6 +128,7 @@
 
                 <TextView
                     android:id="@+id/tv_editDose_takenAtDate"
+                    android:hint="@string/dose_taken_on_date"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="0"

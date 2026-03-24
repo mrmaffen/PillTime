@@ -13,6 +13,7 @@
         <item quantity="other">max %1$d / %2$d days</item>
     </plurals>
     <string name="every">every</string>
+    <string name="hour_or_day">hour or day</string>
     <string name="default_doses">Amount normally taken:</string>
     <string name="new_med">New Med</string>
     <string name="history">History</string>
@@ -43,6 +44,8 @@
     <string name="new_dose">New Dose</string>
     <string name="new_dose_title">New %1$s dose</string>
     <string name="dose_taken_at">Taken at</string>
+    <string name="dose_taken_at_time">Taken at time</string>
+    <string name="dose_taken_on_date">Taken on date</string>
 
     <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
     <plurals name="expires">
@@ -120,6 +123,7 @@
     <string name="theme_value_auto_battery" translatable="false">MODE_NIGHT_AUTO_BATTERY</string>
 
     <string name="color">Color</string>
+    <string name="set_med_color">Set med color</string>
     <string name="red">Red</string>
     <string name="orange">Orange</string>
     <string name="amber">Amber</string>
@@ -143,7 +147,8 @@
     <string name="disclaimer_2">This is a simple app made for personal use. It cannot be relied upon for any health-related purposes. Because of technical limitations and known issues, it cannot be guaranteed to provide notifications at specific times. (For example, restarting the phone may disable scheduled notifications from this app.)</string>
 
     <string name="dev_decree_title">Notice</string>
-    <string name="dev_decree_notice">Due to terrible new Google policies, this app may soon become difficult or impossible for you to install.\n\nGoogle plans to restrict Android devices from installing any app unless its developer has paid them a fee and submitted government identification documents.</string>
+    <string name="dev_decree_notice">Google is changing the way you install apps like this one on your device. Visit keepandroidopen.org to learn more.</string>
+    <string name="keep_android_open">keepandroidopen.org</string>
     <string name="learn_more">Learn More</string>
     <string name="close">Close</string>
 
@@ -168,4 +173,11 @@
 
     <string name="about_app">About Pill Time</string>
     <string name="info_link_title">Source code and more info available on GitHub</string>
+
+    <string name="welcome_dialog_title">New Features</string>
+    <string name="welcome_dialog_content">
+        You can now long-press the add dose button on the main screen to quickly add a new dose.\n
+        \nYou can also set the standard dose amount to use for each med on the edit screen.\n
+        \nNOTE: Google is changing the way you install apps like this one on your device. Visit keepandroidopen.org to learn more.
+    </string>
 </resources>

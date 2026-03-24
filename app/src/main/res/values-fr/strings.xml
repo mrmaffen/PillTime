@@ -13,6 +13,7 @@
         <item quantity="other">max %1$d / %2$d jours</item>
     </plurals>
     <string name="every">chaque</string>
+    <string name="hour_or_day">heure ou jour</string>
     <string name="default_doses">Quantité habituellement prise :</string>
     <string name="new_med">Nouveau médicament</string>
     <string name="history">Historique</string>
@@ -43,6 +44,8 @@
     <string name="new_dose">Nouvelle Dose</string>
     <string name="new_dose_title">Nouvelle dose de %1$s</string>
     <string name="dose_taken_at">Prise à</string>
+    <string name="dose_taken_at_time">Heure prise</string>
+    <string name="dose_taken_on_date">Date prise</string>
 
     <!-- Example: "expire(s/d) on DD/MM/YYYY at HH:MM" -->
     <plurals name="expires" tools:ignore="MissingQuantity">
@@ -114,6 +117,7 @@
     <string name="theme_entry_auto_battery">Automatique - batterie</string>
 
     <string name="color">Couleur</string>
+    <string name="set_med_color">Mets ce médicament en</string>
     <string name="red">Rouge</string>
     <string name="orange">Orange</string>
     <string name="amber">Ambre</string>
@@ -137,8 +141,9 @@
     <string name="disclaimer_2">Il s\'agit d\'une application simple conçue pour un usage personnel. Elle ne peut être utilisée à des fins médicales. En raison de limitations techniques et de problèmes connus, il n\'est pas garanti qu\'elle fournisse des notifications à des moments précis. (Par exemple, le redémarrage du téléphone peut désactiver les notifications programmées par cette application.)</string>
 
     <string name="dev_decree_title">Attention</string>
-    <string name="dev_decree_notice">En raison des nouvelles politiques terribles de Google, cette application pourrait bientôt devenir difficile, voire impossible, à installer. Google prévoit d\'empêcher les appareils Android d\'installer toute application dont la développeuse ou le développeur n\'aura pas payé de frais et fourni des documents d\'identité officiels.</string>
+    <string name="dev_decree_notice">Google est en train de changer la façon dont vous installez des applications comme celle-ci sur votre appareil. Consultez keepandroidopen.org pour en savoir plus.</string>
     <string name="learn_more">En apprendre davantage</string>
+    <string name="keep_android_open">keepandroidopen.org</string>
     <string name="close">Fermer</string>
 
     <string name="no_meds">Aucun médicament trouvé</string>
@@ -162,4 +167,11 @@
 
     <string name="about_app">À propos de Pill Time</string>
     <string name="info_link_title">Code source et informations supplémentaires disponibles sur GitHub</string>
+
+    <string name="welcome_dialog_title">Nouvelles fonctionnalités</string>
+    <string name="welcome_dialog_content">
+        Vous pouvez désormais appuyer longuement sur le bouton « Ajouter une dose » de l\'écran principal pour ajouter rapidement une nouvelle dose.\n
+        \nVous pouvez également définir la quantité standard à utiliser pour chaque médicament sur l\'écran d\'édition.\n
+        \nATTENTION : Google est en train de changer la façon dont vous installez des applications comme celle-ci sur votre appareil. Consultez keepandroidopen.org pour en savoir plus.
+    </string>
 </resources>
