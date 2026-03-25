@@ -168,7 +168,7 @@
     <string name="about_app">Über Pill Time</string>
     <string name="info_link_title">Quellcode und weitere Informationen auf GitHub verfügbar</string>
 
-    <string name="welcome_dialog_title">New Features</string>
+    <string name="welcome_dialog_title">Neue Funktionen</string>
     <string name="welcome_dialog_content">
         Du kannst jetzt auf dem Hauptbildschirm lange auf die Schaltfläche „Dosis hinzufügen“ drücken, um schnell eine neue Dosis hinzuzufügen.\n
         \nDu kannst außerdem auf dem Bearbeitungsbildschirm die Standarddosis für jedes Medikament festlegen.\n
